@@ -3,14 +3,14 @@
 What will Gorillaz and The Strokes play at Primavera Sound Buenos Aires 2026? This repo answers that from every show
 of their current tours, and turns the answer into two Spotify playlists in show order.
 
+[![The story in 25 seconds: click to play](docs/hyperframes/scene-1.png)](docs/hyperframes/setlist-predictor.mp4)
+
 **Listen:** [Gorillaz](https://open.spotify.com/playlist/1IZqWbRl3vrWjZFqOdAwP4) ·
 [The Strokes](https://open.spotify.com/playlist/0G2lE83qb30uNAfjGXIZ3Y)
 
 > **This is an example export.** The working project lives in my private workspace. This copy was cleaned up for
 > sharing: personal references removed, code and docs translated to English. The report stays in Spanish on purpose:
 > it was made for me, a festival-goer in Buenos Aires.
-
-<!-- video: drag docs/story.mp4 into the GitHub editor here -->
 
 ![The generated report (in Spanish): songs grouped by probability, with how often each one played on tour](docs/report.png)
 
@@ -49,7 +49,16 @@ Each of these was a short note from me. Each one changed the data, not just the 
 | "Does either band have a feature with someone playing the same day?" | Checked against both lineups: no. But the data showed something else: **Trueno**, who raps on Gorillaz's *The Manifesto*, joined them on stage in 8 of the 9 shows where it was played. He's from Buenos Aires. *The Manifesto* went into the playlist. |
 | "Now the reverse: downweight songs that were played because a guest was around" | Songs played almost only with an occasional guest now count 25%. *Garage Palace* (Little Simz, 14 of 14 plays) and *Rock the House* (Del the Funky Homosapien) dropped out of the playlist. Guests who tour with the band (Bootie Brown, Kara Jackson, Posdnuos) don't count as occasional. |
 
-### 3. What the agent did, and what I did
+### 3. The video, with its own receipts
+
+The video at the top is code too: an HTML composition rendered frame by frame with the
+[HyperFrames](https://github.com/heygen-com/hyperframes) CLI. It came from one directed prompt, written in numbers
+instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 10 creative follow-ups: 9 from Claude reviewing its
+own frames, and 1 from me ("It's missing the most important thing: the playlist"). A plain HTML + Playwright build of
+the same prompt was made in parallel and dropped for its weaker motion. Every follow-up, as acted on:
+[`story/hyperframes/RECEIPTS.md`](story/hyperframes/RECEIPTS.md).
+
+### 4. What the agent did, and what I did
 
 The code was written by Claude (Claude Code, Opus 5.5). I set the goal, made the calls in the table above, and
 checked the results against what I know about these bands. Data sources were checked live: setlist.fm's API for the

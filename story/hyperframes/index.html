@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280, height=720" />
+<title>setlist-predictor</title>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/CustomEase.min.js"></script>
+<style>
+@font-face { font-family: "Permanent Marker"; src: url(fonts/permanent-marker.woff2) format("woff2"); font-weight: 400; font-display: block }
+@font-face { font-family: "Instrument Sans"; src: url(fonts/instrument-sans.woff2) format("woff2"); font-weight: 400 700; font-display: block }
+@font-face { font-family: "IBM Plex Mono"; src: url(fonts/plex-mono-500.woff2) format("woff2"); font-weight: 500; font-display: block }
+:root {
+  --paper: #f5f6f3; --sheet: #ffffff; --ink: #17181c; --muted: #5d606b; --line: #dcddd8;
+  --hl: #ffe35a; --pen: #2c55d6; --strike: #c8342b;
+  --marker: "Permanent Marker", cursive; --body: "Instrument Sans", sans-serif; --mono: "IBM Plex Mono", monospace;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 500 22px/1.3 var(--body) }
+#root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--paper) }
+.clip { position: absolute; inset: 0 }
+.abs { position: absolute }
+.sheet { position: absolute; background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 1px 0 var(--line) }
+.eyebrow { font: 500 16px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+.marker { font-family: var(--marker); font-weight: 400; line-height: 1.05 }
+.mono { font-family: var(--mono); font-weight: 500 }
+.pen { color: var(--pen) }
+svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: visible }
+.stroke { fill: none; stroke: var(--pen); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round }
+.hl-wrap { position: absolute; transform: skewX(-8deg) }
+.hl { width: 100%; height: 100%; background: var(--hl); opacity: .92; transform-origin: left center }
+.strike { position: absolute; height: 3px; background: var(--strike); transform-origin: left center }
+
+/* scene 1 */
+#ticket { left: 64px; top: 64px; width: 470px; height: 176px; padding: 22px 26px; rotate: -1.5deg; scale: 1.1; transform-origin: 0 0 }
+#ticket .perf { position: absolute; right: 74px; top: 12px; bottom: 12px; border-left: 2px dashed var(--line) }
+#ticket .acts { margin-top: 18px; font-size: 40px }
+#ticket .no { position: absolute; right: 18px; top: 50%; translate: 0 -50%; rotate: 90deg; font-size: 14px }
+#headline { left: 64px; top: 300px; width: 520px; font-size: 72px }
+#headline .w { display: inline-block }
+#wall { left: 604px; top: 76px; width: 612px; height: 568px }
+.card { position: absolute; width: 50px; height: 76px; background: var(--sheet); border: 1px solid var(--line); border-radius: 3px; padding: 9px 6px 0 }
+.card.gz { border-top: 3px solid var(--pen) }
+.card.ts { border-top: 3px solid var(--ink) }
+.slot { position: absolute; width: 50px; height: 76px; border: 1px dashed var(--line); border-radius: 3px }
+.card i { display: block; height: 3px; margin-bottom: 6px; background: var(--line) }
+#counter { left: 64px; top: 520px; width: 520px }
+#counter .big { font-size: 40px; color: var(--pen) }
+#counter .small { font-size: 24px; color: var(--muted); margin-top: 6px }
+#legend { left: 604px; top: 662px; display: flex; gap: 24px }
+#legend span::before { content: ""; display: inline-block; width: 14px; height: 4px; margin-right: 8px; vertical-align: middle; background: var(--pen) }
+#legend span.ts::before { background: var(--ink) }
+
+/* scene 2 */
+.sess { top: 160px; width: 500px; height: 400px; padding: 26px 30px }
+#sessA { left: 64px; rotate: -1deg }
+#sessB { left: 716px; rotate: 1deg }
+.sess .title { font-size: 34px; margin: 12px 0 18px }
+.file { display: inline-block; font: 500 15px/1 var(--mono); padding: 6px 10px; border: 1px solid var(--line); border-bottom: 0; border-radius: 4px 4px 0 0 }
+.code { border-top: 1px solid var(--line); padding-top: 14px }
+.code div { font: 500 17px/1.75 var(--mono); white-space: nowrap; transform-origin: left center }
+.code .c { color: var(--muted) }
+.todo { display: flex; align-items: center; gap: 16px; font: 500 20px/1 var(--mono); margin: 0 0 26px }
+.box { position: relative; width: 26px; height: 26px; border: 2px solid var(--ink); border-radius: 3px; flex: none }
+.box svg { position: absolute; left: -4px; top: -10px; width: 36px; height: 36px; overflow: visible }
+#handoff { left: 572px; top: 250px; width: 136px; text-align: center; font-size: 22px; color: var(--pen); rotate: -4deg }
+
+/* scene 3 */
+.node { top: 255px; width: 250px; height: 150px; padding: 22px 24px }
+.node .name { font: 600 28px/1.15 var(--body) }
+.node .sub { margin-top: 10px; font: 500 16px/1.25 var(--mono); color: var(--muted) }
+#pipehead { left: 64px; top: 120px; font-size: 48px }
+.dot { position: absolute; left: 0; top: 324px; width: 12px; height: 12px; border-radius: 50%; background: var(--ink) }
+
+/* scene 4 */
+#draft { left: 64px; top: 64px; width: 640px; height: 490px; padding: 26px 32px; rotate: -1deg; transform-origin: 50% 50% }
+#draft .head { font-size: 36px }
+.row { position: absolute; left: 32px; right: 32px; height: 56px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line) }
+.row .nm { position: relative; font: 600 24px/1.1 var(--body) }
+.row .sb { display: block; font: 500 13px/1.3 var(--mono); color: var(--muted); letter-spacing: .02em }
+.row .pc { display: flex; align-items: center; gap: 12px; font: 500 18px/1 var(--mono) }
+.bar { width: 110px; height: 8px; background: var(--paper); border: 1px solid var(--line); border-radius: 2px; overflow: hidden }
+.bar b { display: block; height: 100%; background: var(--ink); transform-origin: left center }
+#feats { left: 752px; top: 84px; font-size: 38px; color: var(--pen); rotate: -3deg }
+#trueno { left: 752px; top: 178px; width: 464px; height: 214px; padding: 22px 26px; rotate: 1deg }
+#trueno .who { font-size: 46px; margin: 10px 0 8px }
+#trueno .what { font: 500 22px/1.3 var(--body) }
+#trueno .from { margin-top: 12px; color: var(--pen) }
+#discount { left: 752px; top: 470px; font-size: 30px; color: var(--pen); rotate: -2deg }
+#outtag { left: 752px; top: 546px; font: 500 16px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--strike) }
+
+/* scene 5 */
+.pl { top: 64px; width: 548px; height: 488px; padding: 26px 30px; overflow: hidden }
+#plG { left: 64px; rotate: -1deg }
+#plS { left: 668px; rotate: 1deg }
+.pl .head { font-size: 46px; margin-top: 8px }
+.pl .meta { margin: 10px 0 14px }
+.frow { display: flex; gap: 16px; font: 600 22px/1 var(--body); padding: 9px 0; border-bottom: 1px solid var(--line) }
+.frow .n { width: 28px; font: 500 16px/22px var(--mono); color: var(--muted) }
+.frow .n + span { line-height: 22px }
+.frow .sec { margin-left: auto; font: 500 13px/22px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+.pl .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: linear-gradient(rgba(255,255,255,0), #fff 80%) }
+#listen { left: 64px; top: 588px; font-size: 46px; color: var(--pen) }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="720" data-duration="25">
+
+  <!-- 1. The problem: 0 to 134 -->
+  <section id="s1" class="clip" data-start="0" data-duration="4.5" data-track-index="0">
+    <div id="wall" class="abs"></div>
+    <div id="ticket" class="sheet">
+      <div class="eyebrow">Primavera Sound · Buenos Aires · 2026</div>
+      <div class="acts marker">GORILLAZ<br>THE STROKES</div>
+      <div class="perf"></div>
+      <div class="no mono" style="color:var(--muted)">ADMIT ONE</div>
+    </div>
+    <div id="headline" class="abs marker"><span class="w">What</span> <span class="w">will</span> <span class="w">they</span> <span class="w">play?</span></div>
+    <div id="counter" class="abs">
+      <div class="big marker">77 shows.</div>
+      <div class="small">Unreadable by hand.</div>
+    </div>
+    <div id="legend" class="abs eyebrow"><span>47 Gorillaz</span><span class="ts">30 The Strokes</span></div>
+  </section>
+
+  <!-- 2. The method: 135 to 269 -->
+  <section id="s2" class="clip" data-start="4.5" data-duration="4.5" data-track-index="0">
+    <div id="sessA" class="sheet sess">
+      <div class="eyebrow">Session A · writes the spec</div>
+      <div class="title marker">Plan</div>
+      <span class="file">SPEC.md</span>
+      <div class="code">
+        <div class="c"># setlist-predictor</div>
+        <div>goal: predict both setlists</div>
+        <div>source: setlist.fm API</div>
+        <div>store: SQLite</div>
+        <div>model: batches × festival factor</div>
+        <div>out: Spotify playlists</div>
+        <div>out: HTML report</div>
+        <div class="c">done when: report renders</div>
+      </div>
+    </div>
+    <div id="sessB" class="sheet sess">
+      <div class="eyebrow">Session B · builds</div>
+      <div class="title marker">Build</div>
+      <div class="todos">
+        <div class="todo"><span class="box"><svg viewBox="0 0 36 36"><path class="stroke tick" pathLength="1" d="M6 20 L14 28 L32 4"/></svg></span>build_db.py</div>
+        <div class="todo"><span class="box"><svg viewBox="0 0 36 36"><path class="stroke tick" pathLength="1" d="M6 20 L14 28 L32 4"/></svg></span>analyze.py</div>
+        <div class="todo"><span class="box"><svg viewBox="0 0 36 36"><path class="stroke tick" pathLength="1" d="M6 20 L14 28 L32 4"/></svg></span>spotify.py</div>
+        <div class="todo"><span class="box"><svg viewBox="0 0 36 36"><path class="stroke tick" pathLength="1" d="M6 20 L14 28 L32 4"/></svg></span>report.py</div>
+      </div>
+    </div>
+    <svg class="ov" viewBox="0 0 1280 720">
+      <path id="arrow" class="stroke" pathLength="1" d="M540 364 C 600 324, 660 324, 728 360"/>
+      <path id="arrowhead" class="stroke" pathLength="1" d="M710 342 L730 361 L704 368"/>
+    </svg>
+    <div id="handoff" class="abs marker">hands off SPEC.md</div>
+  </section>
+
+  <!-- 3. The pipeline: 270 to 419 -->
+  <section id="s3" class="clip" data-start="9" data-duration="5" data-track-index="0">
+    <div id="pipehead" class="abs marker">77 shows in. Two playlists out.</div>
+    <svg class="ov" viewBox="0 0 1280 720">
+      <path id="pipe" class="stroke" pathLength="1" d="M189 330 L1060 330"/>
+    </svg>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    <div class="sheet node" style="left:64px"><div class="name">setlist.fm API</div><div class="sub">77 shows</div></div>
+    <div class="sheet node" style="left:351px"><div class="name">SQLite</div><div class="sub">setlists.db</div></div>
+    <div id="modelnode" class="sheet node" style="left:638px"><div class="name">model</div><div class="sub">batches × festival factor</div></div>
+    <div class="sheet node" style="left:925px;width:270px"><div class="name">Spotify playlists + report</div></div>
+  </section>
+
+  <!-- 4. The human in the loop: 420 to 599 -->
+  <section id="s4" class="clip" data-start="14" data-duration="6" data-track-index="0">
+    <div id="draft" class="sheet">
+      <div class="eyebrow">Gorillaz · setlist draft</div>
+      <div class="head marker" style="margin-top:8px">Model output</div>
+      <div class="row" style="top:130px"><span class="nm">Stylo</span><span class="pc">98%<span class="bar"><b style="width:98%"></b></span></span></div>
+      <div class="row" style="top:186px"><span class="nm">Kids With Guns</span><span class="pc">82%<span class="bar"><b style="width:82%"></b></span></span></div>
+      <div class="row" style="top:242px"><span class="nm">Dirty Harry</span><span class="pc">98%<span class="bar"><b style="width:98%"></b></span></span></div>
+      <div id="manifesto" class="row" style="top:298px">
+        <div class="hl-wrap" style="left:-10px;top:8px;width:300px;height:40px"><div class="hl"></div></div>
+        <span class="nm">The Manifesto<span class="sb">with Trueno · forced in</span></span><span class="pc">3%<span class="bar"><b style="width:3%"></b></span></span>
+      </div>
+      <div id="fgi" class="row" style="top:298px"><span class="nm">Feel Good Inc.</span><span class="pc">98%<span class="bar"><b style="width:98%"></b></span></span></div>
+      <div id="gp" class="row" style="top:354px">
+        <span class="nm">Garage Palace<span class="sb">with Little Simz in 14 of 14 plays</span><span id="gpstrike" class="strike" style="left:-6px;right:-6px;top:13px"></span></span>
+        <span class="pc"><span><span id="gppct">31</span>%</span><span class="bar"><b id="gpbar" style="width:100%"></b></span></span>
+      </div>
+    </div>
+    <div id="feats" class="abs marker">what about the feats?</div>
+    <div id="trueno" class="sheet">
+      <div class="eyebrow">Guest check</div>
+      <div class="who marker">TRUENO</div>
+      <div class="what">On stage in 8 of the 9 shows with The Manifesto.</div>
+      <div class="from eyebrow" style="color:var(--pen)">From Buenos Aires</div>
+    </div>
+    <svg class="ov" viewBox="0 0 1280 720"><path id="gparrow" class="stroke" pathLength="1" d="M748 488 C 732 494, 724 500, 712 506"/><path id="gparrowhead" class="stroke" pathLength="1" d="M724 498 L711 507 L725 512"/></svg>
+    <div id="discount" class="abs marker">guest discount</div>
+    <div id="outtag" class="abs">out of the playlist</div>
+  </section>
+
+  <!-- 5. The result: 600 to 749 -->
+  <section id="s5" class="clip" data-start="20" data-duration="5" data-track-index="0">
+    <div id="plG" class="sheet pl">
+      <div class="eyebrow">Playlist · Primavera Sound BA</div>
+      <div class="head marker">GORILLAZ</div>
+      <div class="meta eyebrow">37 songs · 148 min</div>
+      <div class="rows">
+        <div class="frow"><span class="n">01</span><span>The Mountain</span><span class="sec">opening</span></div>
+        <div class="frow"><span class="n">02</span><span>The Happy Dictator</span><span class="sec">opening</span></div>
+        <div class="frow"><span class="n">03</span><span>Tranz</span><span class="sec">opening</span></div>
+        <div class="frow"><span class="n">04</span><span>Last Living Souls</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">05</span><span>Tomorrow Comes Today</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">06</span><span>19-2000</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">07</span><span>Rhinestone Eyes</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">08</span><span>Every Planet We Reach Is Dead</span><span class="sec">middle</span></div>
+      </div>
+      <div class="fade"></div>
+    </div>
+    <div id="plS" class="sheet pl">
+      <div class="eyebrow">Playlist · Primavera Sound BA</div>
+      <div class="head marker">THE STROKES</div>
+      <div class="meta eyebrow">32 songs · 118 min</div>
+      <div class="rows">
+        <div class="frow"><span class="n">01</span><span>Lonely in the Future</span><span class="sec">opening</span></div>
+        <div class="frow"><span class="n">02</span><span>Dine N’Dash</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">03</span><span>Hard to Explain</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">04</span><span>Going Shopping</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">05</span><span>Reptilia</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">06</span><span>The Adults Are Talking</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">07</span><span>Heart in a Cage</span><span class="sec">middle</span></div>
+        <div class="frow"><span class="n">08</span><span>Soma</span><span class="sec">opening</span></div>
+      </div>
+      <div class="fade"></div>
+    </div>
+    <div id="listen" class="abs marker">Two playlists. Listen</div>
+    <svg class="ov" viewBox="0 0 1280 720">
+      <path id="listenarrow" class="stroke" pathLength="1" d="M556 604 C 590 612, 600 640, 596 672"/>
+      <path id="listenhead" class="stroke" pathLength="1" d="M584 660 L596 674 L607 659"/>
+    </svg>
+  </section>
+</div>
+
+<script>
+gsap.registerPlugin(CustomEase);
+const F = n => n / 30;                       // frame -> seconds
+const D = n => n / 30;                       // frame count -> duration
+CustomEase.create("enter", "0.16,1,0.3,1");  // ease-out-expo
+CustomEase.create("move", "0.76,0,0.24,1");  // ease-in-out-quart
+CustomEase.create("exit", "0.7,0,0.84,0");   // ease-in-expo
+// Analytic spring, damping ratio 0.75 at 2.2 Hz, stretched over the tween's duration.
+const springEase = (dur, zeta = 0.75, f = 2.2) => p => {
+  const t = p * dur, w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - zeta * zeta);
+  return p >= 1 ? 1 : 1 - Math.exp(-zeta * w * t) * (Math.cos(wd * t) + (zeta * w / wd) * Math.sin(wd * t));
+};
+const draw = (tl, el, at, frames, ease = "move") =>
+  tl.fromTo(el, { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: D(frames), ease }, F(at));
+
+// Scene 1 wall: 47 Gorillaz + 30 The Strokes, 11 x 7, filled left to right, top to bottom
+const wall = document.getElementById("wall");
+for (let i = 0; i < 77; i++) {
+  const s = document.createElement("div");
+  s.className = "slot"; s.style.left = (i % 11) * 56 + "px"; s.style.top = Math.floor(i / 11) * 82 + "px";
+  wall.appendChild(s);
+  const c = document.createElement("div");
+  c.className = "card " + (i < 47 ? "gz" : "ts");
+  c.style.left = (i % 11) * 56 + "px";
+  c.style.top = Math.floor(i / 11) * 82 + "px";
+  const lines = 5 + (i * 7) % 3;
+  for (let k = 0; k < lines; k++) {
+    const l = document.createElement("i");
+    l.style.width = 60 + ((i * 13 + k * 29) % 41) + "%";
+    c.appendChild(l);
+  }
+  wall.appendChild(c);
+}
+
+document.fonts.ready.then(() => {
+  const tl = gsap.timeline({ paused: true });
+
+  // 1. The problem
+  tl.fromTo("#headline .w", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(4) }, F(6));
+  tl.fromTo(".card", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: D(6), ease: "enter", stagger: D(1) }, F(30));
+  tl.fromTo("#legend", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(90));
+  tl.fromTo("#counter .big", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: D(12), ease: "enter" }, F(100));
+  tl.fromTo("#counter .small", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(106));
+
+  // 2. The method
+  tl.fromTo("#sessA", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(135));
+  tl.fromTo("#sessB", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(139));
+  tl.fromTo("#sessA .code div", { opacity: 0, scaleX: 0.92 }, { opacity: 1, scaleX: 1, duration: D(6), ease: "enter", stagger: D(6) }, F(140));
+  draw(tl, "#arrow", 195, 14);
+  draw(tl, "#arrowhead", 207, 6, "enter");
+  tl.fromTo("#handoff", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(200));
+  document.querySelectorAll("#sessB .tick").forEach((p, i) => draw(tl, p, 215 + i * 8, 8, "enter"));
+
+  // 3. The pipeline
+  tl.fromTo("#pipehead", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(270));
+  draw(tl, "#pipe", 276, 56, "move");
+  tl.fromTo("#s3 .node", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: D(14), ease: springEase(D(14)), stagger: D(14) }, F(276));
+  document.querySelectorAll("#s3 .dot").forEach((d, i) => {
+    tl.fromTo(d, { x: 189 - 6, opacity: 0 }, { x: 1060 - 6, duration: D(40), ease: "none" }, F(340 + i * 8));
+    tl.to(d, { opacity: 1, duration: D(2), ease: "none" }, F(340 + i * 8));
+  });
+  tl.to("#s3 .node:not(#modelnode), #pipe, #s3 .dot, #pipehead", { opacity: 0, duration: D(6), ease: "exit" }, F(412));
+
+  // 4. The human in the loop (match cut: the model node grows into the draft sheet)
+  tl.fromTo("#draft", { x: 763 - 384, y: 330 - 309, scale: 0.39 },
+    { x: 0, y: 0, scale: 1, duration: D(12), ease: "move" }, F(420));
+  tl.fromTo("#draft .row:not(#manifesto)", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(424));
+  tl.fromTo("#feats", { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: D(14), ease: springEase(D(14)) }, F(430));
+  tl.fromTo("#trueno", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: D(18), ease: "enter" }, F(465));
+  tl.fromTo("#fgi", { y: 0 }, { y: 56, duration: D(10), ease: "move" }, F(495));
+  tl.fromTo("#gp", { y: 0 }, { y: 56, duration: D(10), ease: "move" }, F(495));
+  tl.fromTo("#manifesto", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(503));
+  tl.fromTo("#manifesto .hl", { scaleX: 0 }, { scaleX: 1, duration: D(10), ease: "move" }, F(508));
+  tl.fromTo("#discount", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(530));
+  draw(tl, "#gparrow", 532, 14);
+  draw(tl, "#gparrowhead", 544, 6, "enter");
+  tl.fromTo("#gpbar", { scaleX: 0.31 }, { scaleX: 0.08, duration: D(20), ease: "move" }, F(540));
+  tl.fromTo("#gppct", { innerText: 31 }, { innerText: 8, snap: { innerText: 1 }, duration: D(20), ease: "move" }, F(540));
+  tl.fromTo("#gpstrike", { scaleX: 0 }, { scaleX: 1, duration: D(8), ease: "move" }, F(564));
+  tl.fromTo("#outtag", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(572));
+
+  // 5. The result: both playlists on screen at the cut
+  tl.fromTo("#plG", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(600));
+  tl.fromTo("#plS", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(604));
+  tl.fromTo("#plG .frow", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(604));
+  tl.fromTo("#plS .frow", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(616));
+  tl.fromTo("#listen", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: D(18), ease: "enter" }, F(650));
+  draw(tl, "#listenarrow", 660, 14);
+  draw(tl, "#listenhead", 672, 6, "enter");
+
+  window.__timelines["main"] = tl;
+});
+</script>
+</body>
+</html>
