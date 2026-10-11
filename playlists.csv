@@ -1,0 +1,70 @@
+artist,order,song,probability,section,spotify_url
+Gorillaz,1,The Mountain,98%,opening,https://open.spotify.com/track/3MebYJnEDK4XdnCj3VMLjL
+Gorillaz,2,The Happy Dictator,98%,opening,https://open.spotify.com/track/50BLjPGDh9DjVp4qwwyG6d
+Gorillaz,3,Tranz,98%,opening,https://open.spotify.com/track/7jYUaoOfdcYgUvkK8NnFfx
+Gorillaz,4,Last Living Souls,63%,middle,https://open.spotify.com/track/7JzmCjvB6bk48JghLyrg8N
+Gorillaz,5,Tomorrow Comes Today,46%,middle,https://open.spotify.com/track/6BL4PpswVjH9BAajbIbpmZ
+Gorillaz,6,19-2000,98%,middle,https://open.spotify.com/track/71koAFCnGnugRdGIDfS7f4
+Gorillaz,7,Rhinestone Eyes,97%,middle,https://open.spotify.com/track/1foMv2HQwfQ2vntFf9HFeG
+Gorillaz,8,Every Planet We Reach Is Dead,10% (filler),middle,https://open.spotify.com/track/2pw9RZWZibttZzoFhwjuy6
+Gorillaz,9,The Moon Cave,26%,middle,https://open.spotify.com/track/6VflG4mpZSlpKnqNRL3NO9
+Gorillaz,10,5/4,18%,middle,https://open.spotify.com/track/5Q10MhatY5DkgBfbWUkRpN
+Gorillaz,11,El Mañana,67%,middle,https://open.spotify.com/track/0dcMqjeDpwqB2xhzMsld0p
+Gorillaz,12,On Melancholy Hill,98%,middle,https://open.spotify.com/track/0q6LuUqGLUiCPP1cbdwFs3
+Gorillaz,13,Orange County,98%,middle,https://open.spotify.com/track/5l4Gq3UC0dHKSExIf5xD9N
+Gorillaz,14,O Green World,9% (filler),middle,https://open.spotify.com/track/4hNPMfFHauPIbOKvdYqFt7
+Gorillaz,15,Empire Ants,1% (filler),middle,https://open.spotify.com/track/3a6PN6BRB8PP3ms48s7kU1
+Gorillaz,16,Casablanca,33%,middle,https://open.spotify.com/track/4PjP7VfSAPxyt2TprUpALA
+Gorillaz,17,Delirium,98%,middle,https://open.spotify.com/track/4uIXvy8PbYLEhs0PZgaP8p
+Gorillaz,18,Andromeda,93%,middle,https://open.spotify.com/track/2C0KFbb4v9CNWR5c9jWcKC
+Gorillaz,19,To Binge,0% (filler),middle,https://open.spotify.com/track/1dvOwoHwZB9SwvRw2Gv3nz
+Gorillaz,20,Broken,3% (filler),middle,https://open.spotify.com/track/3THFKx88trZuOFlssVLJ5G
+Gorillaz,21,She's My Collar,84%,middle,https://open.spotify.com/track/3lIxtCaROdRDuTnNBDm3n2
+Gorillaz,22,White Flag,0% (filler),middle,https://open.spotify.com/track/3famfyGuWw5QFcVO5Xk1uW
+Gorillaz,23,Superfast Jellyfish,22%,middle,https://open.spotify.com/track/1UJNbgfTzG1gZZTWFJdMf1
+Gorillaz,24,Stylo,98%,middle,https://open.spotify.com/track/6LUfuyLgvgqrykiTE6sJHY
+Gorillaz,25,Kids With Guns,82%,middle,https://open.spotify.com/track/0eEgMbSzOHmkOeVuNC3E0k
+Gorillaz,26,The Sad God,12%,middle,https://open.spotify.com/track/5pMMyQyob7rjYO9y8lD7Ey
+Gorillaz,27,Cloud of Unknowing,10%,encore,https://open.spotify.com/track/0NDOVMOT6ah2k6HuXLrq5x
+Gorillaz,28,Plastic Beach,2% (filler),middle,https://open.spotify.com/track/2nZ33CKRbgpJQJJQKHuGXb
+Gorillaz,29,Demon Days,6% (filler),middle,https://open.spotify.com/track/2k6hpKTyubRVOmQR11ViY3
+Gorillaz,30,Don't Get Lost in Heaven,6% (filler),middle,https://open.spotify.com/track/4hjGZN8poACfjWCK3Og6vY
+Gorillaz,31,Welcome to the World of the Plastic Beach,1% (filler),encore,https://open.spotify.com/track/46WOptLnXUtH3LOyYvmMO1
+Gorillaz,32,The Shadowy Light,23%,closing,https://open.spotify.com/track/1WHBtgrgSKDJd9Y8vHNZqH
+Gorillaz,33,The Manifesto,"3% (with Trueno, a local)",encore,https://open.spotify.com/track/1pgl5ntthebzHaqJVI1n6B
+Gorillaz,34,DARE,0% (filler),encore,https://open.spotify.com/track/4Hff1IjRbLGeLgFgxvHflk
+Gorillaz,35,Dirty Harry,98%,encore,https://open.spotify.com/track/2bfGNzdiRa1jXZRdfssSzR
+Gorillaz,36,Feel Good Inc.,98%,encore,https://open.spotify.com/track/0d28khcov6AiegSCpG5TuT
+Gorillaz,37,Clint Eastwood,98%,encore,https://open.spotify.com/track/1RKUoGiLEbcXN4GY4spQDx
+The Strokes,1,Lonely in the Future,58%,opening,https://open.spotify.com/track/5gBMUQu2FVV1OYu92hbJjv
+The Strokes,2,Dine N’Dash,78%,middle,https://open.spotify.com/track/22a006OJm48zH87SkPpSVx
+The Strokes,3,Hard to Explain,97%,middle,https://open.spotify.com/track/2LMloFiV7DHpBhITOaBSam
+The Strokes,4,Going Shopping,97%,middle,https://open.spotify.com/track/18bHbpAKgsf8dor8F6qXHF
+The Strokes,5,Reptilia,97%,middle,https://open.spotify.com/track/57Xjny5yNzAcsxnusKmAfA
+The Strokes,6,The Adults Are Talking,97%,middle,https://open.spotify.com/track/5ruzrDWcT0vuJIOMW7gMnW
+The Strokes,7,Heart in a Cage,48%,middle,https://open.spotify.com/track/3mYCd23hPxJW5okSvMoy3x
+The Strokes,8,Soma,17%,opening,https://open.spotify.com/track/7G8hUONVhvJnkD3Ak8mNF1
+The Strokes,9,Bad Decisions,27%,middle,https://open.spotify.com/track/55N8cxpE1QDoeaaNqUnoZ2
+The Strokes,10,Automatic Stop,49%,middle,https://open.spotify.com/track/6DUKQUhWqUySYngLXLNwP2
+The Strokes,11,Going to Babble On,60%,middle,https://open.spotify.com/track/2nxsLJwW4eFDwl36fUQJWe
+The Strokes,12,Juicebox,97%,middle,https://open.spotify.com/track/3jjQHULAVn71k40mKwGMiV
+The Strokes,13,Ize of the World,19%,middle,https://open.spotify.com/track/1TbK5nWKIxZYIRVurMvkuR
+The Strokes,14,Tyrants of the Mellow Moon,26%,middle,https://open.spotify.com/track/7ETbuxubRVY8WsOnAwhumP
+The Strokes,15,"Call It Fate, Call It Karma",10%,middle,https://open.spotify.com/track/3Y4rUyw7XBCK6hGHCOt6rp
+The Strokes,16,New York City Cops,55%,middle,https://open.spotify.com/track/7xuu4ByQkm8qhnwJQk994r
+The Strokes,17,One Way Trigger,26%,middle,https://open.spotify.com/track/5GKVcvTgnFYtfh25qKQtRg
+The Strokes,18,Gratisfaction,32%,middle,https://open.spotify.com/track/69YCkfZS0aOjEUPwQ4zCZ9
+The Strokes,19,You Only Live Once,97%,middle,https://open.spotify.com/track/4fPBB44eDH71YohayI4eKV
+The Strokes,20,Meet Me in the Bathroom,47%,middle,https://open.spotify.com/track/08l9WKDuRyGeStQ9ojTlFh
+The Strokes,21,Someday,97%,middle,https://open.spotify.com/track/56NkIxSZZiMpFP5ZNSxtnT
+The Strokes,22,Is This It,9% (filler),encore,https://open.spotify.com/track/2pAD0PKMUMtxlMvz33tYzB
+The Strokes,23,Evening Sun,22%,middle,https://open.spotify.com/track/7HxmrxySFNFu5ppnTDdNPv
+The Strokes,24,Take It or Leave It,97%,middle,https://open.spotify.com/track/0J2OnBNKwt0KICDyDFPUvl
+The Strokes,25,This Is Not,55%,middle,https://open.spotify.com/track/02qdK5VnAz2LkREkpbxekf
+The Strokes,26,Under Control,54%,middle,https://open.spotify.com/track/3kKb3U3a8jmUJQB9ypE1Jl
+The Strokes,27,What Ever Happened?,27%,encore,https://open.spotify.com/track/78Gzxi27GuNHTfkn2BylG4
+The Strokes,28,Selfless,35%,encore,https://open.spotify.com/track/2t0wwvR15fc3K1ey8OiOaN
+The Strokes,29,12:51,17%,encore,https://open.spotify.com/track/6Yu1OL8I0D4vjOzYdsXYGK
+The Strokes,30,Last Nite,76%,closing,https://open.spotify.com/track/7kzKAuUzOITUauHAhoMoxA
+The Strokes,31,Threat of Joy,28%,encore,https://open.spotify.com/track/37ZgsOy8t4vMnGtMExr6ah
+The Strokes,32,Ode to the Mets,49%,encore,https://open.spotify.com/track/1BLOVHYYlH4JUHQGcpt75R

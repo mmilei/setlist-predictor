@@ -1,0 +1,169 @@
+<title>Setlists Primavera BA 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of "setlist sheets", one per day; highlighter for the sure ones, strikethrough for what won't play.
+   The report's text is in Spanish on purpose: it was made for a festival-goer in Buenos Aires. */
+:root {
+  --paper: #f5f6f3; --sheet: #ffffff; --ink: #17181c; --muted: #5d606b; --line: #dcddd8;
+  --hl: #ffe35a; --hl-ink: #17181c; --pen: #2c55d6; --strike: #c8342b;
+  --display: "Permanent Marker", "Comic Sans MS", cursive;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111216; --sheet: #1a1b20; --ink: #ecebe6; --muted: #9b9ea9; --line: #2c2e35;
+  --hl: #e8cd3c; --hl-ink: #141414; --pen: #8ea8ff; --strike: #ff7a6e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #111216; --sheet: #1a1b20; --ink: #ecebe6; --muted: #9b9ea9; --line: #2c2e35;
+  --hl: #e8cd3c; --hl-ink: #141414; --pen: #8ea8ff; --strike: #ff7a6e; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--body); }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: grid; gap: 28px }
+a { color: var(--pen); text-underline-offset: 2px }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; border-radius: 3px }
+
+header.top { display: grid; gap: 10px }
+.eyebrow { font: 500 .75rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { margin: 0; font: 700 clamp(1.6rem, 4.5vw, 2.3rem)/1.15 var(--body); text-wrap: balance; letter-spacing: -.01em }
+.lede { margin: 0; color: var(--muted); max-width: 62ch }
+nav.days { display: flex; flex-wrap: wrap; gap: 8px }
+nav.days a { text-decoration: none; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: .9rem }
+nav.days a:hover { background: var(--ink); color: var(--paper) }
+
+section.band { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: clamp(18px, 4vw, 32px); display: grid; gap: 26px; scroll-margin-top: 16px; position: relative }
+section.band::before { /* cinta de gaffer */
+  content: ""; position: absolute; top: -10px; left: 50%; width: 110px; height: 22px; transform: translateX(-50%) rotate(-2deg);
+  background: var(--line); opacity: .9; border-radius: 2px }
+.band-head { display: grid; gap: 6px }
+.band-head h2 { margin: 0; font: 400 clamp(2rem, 7vw, 3rem)/1.05 var(--display); letter-spacing: .01em }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: .9rem }
+.meta b { color: var(--ink); font-weight: 600 }
+.playlist { justify-self: start; display: inline-flex; gap: 8px; align-items: center; margin-top: 6px; font-weight: 600; font-size: .92rem; text-decoration: none; border-bottom: 2px solid var(--pen); padding-bottom: 1px }
+
+.tier { display: grid; gap: 10px }
+.tier h3 { margin: 0; display: flex; align-items: baseline; gap: 10px; font: 700 1.15rem/1.2 var(--body) }
+.tier h3 .count { font: 500 .8rem var(--mono); color: var(--muted) }
+.tier p.note { margin: 0; color: var(--muted); font-size: .9rem }
+
+ul.sure { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px }
+ul.sure li { font-weight: 600; font-size: 1.05rem }
+ul.sure li .mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding: 0 .3em; box-decoration-break: clone; -webkit-box-decoration-break: clone }
+ul.sure a { color: inherit; text-decoration: none }
+ul.sure a:hover .mark { text-decoration: underline }
+
+.rows { display: grid; gap: 2px }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 3.2rem minmax(60px, 140px); gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px dashed var(--line) }
+.row .name { min-width: 0; display: grid }
+.row .name a, .row .name span.t { font-weight: 600; color: var(--ink); text-decoration: none; overflow-wrap: anywhere }
+.row .name a:hover { text-decoration: underline }
+.row .sub { font-size: .78rem; color: var(--muted) }
+.row .pct { font: 500 .9rem var(--mono); text-align: right; font-variant-numeric: tabular-nums }
+.bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--pen); border-radius: 4px }
+
+.albums { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px }
+.album { display: grid; gap: 6px; align-content: start }
+.album h4 { margin: 0; font: 700 1rem/1.25 var(--body) }
+.album h4 span { font: 400 .8rem var(--mono); color: var(--muted); margin-left: 6px }
+.album .ratio { font-size: .85rem; color: var(--muted) }
+.album ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px }
+.album li { text-decoration: line-through; text-decoration-color: var(--strike); text-decoration-thickness: 2px; color: var(--muted) }
+.album .none { color: var(--muted); font-style: italic }
+
+.rare { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px }
+.rare li { font-size: .92rem }
+.rare li b { font-weight: 600 }
+.rare li span { color: var(--muted) }
+
+footer { color: var(--muted); font-size: .82rem; display: grid; gap: 4px }
+@media (prefers-reduced-motion: no-preference) { nav.days a { transition: background .15s, color .15s } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Primavera Sound Buenos Aires · Club Ciudad, Núñez</div>
+    <h1>Qué vas a escuchar: Gorillaz y The Strokes</h1>
+    <p class="lede">Setlist probable de cada banda, armado con todos los shows de su gira actual en setlist.fm. Manda la última tanda de cada banda (Gorillaz desde el 23/9 en Norteamérica, The Strokes desde Queens el 2/10), y cada tema se ajusta por cuánto sobrevive al recorte de un set de festival, que dura cerca de 1,5 h.</p>
+    <nav class="days" id="days" aria-label="Días"></nav>
+  </header>
+  <main id="bands" style="display:grid;gap:36px"></main>
+  <footer>
+    <div id="gen"></div>
+    <div>Fuente: <a href="https://www.setlist.fm" rel="noopener">setlist.fm</a>. Tracklists de los discos: Spotify.</div>
+  </footer>
+</div>
+
+<script>
+const DATA = {"bands": [{"artist": "Gorillaz", "day": "Sábado 28/11", "cut": [{"song": "Cloud of Unknowing", "album": "Plastic Beach", "p": 0.1, "p_rep": 0.786, "n": 17, "section": "encore", "spotify": "https://open.spotify.com/track/0NDOVMOT6ah2k6HuXLrq5x"}, {"song": "The Sad God", "album": null, "p": 0.121, "p_rep": 0.775, "n": 24, "section": "middle", "spotify": "https://open.spotify.com/track/5pMMyQyob7rjYO9y8lD7Ey"}], "must": [{"song": "The Manifesto", "album": null, "p": 0.034, "p_rep": 0.094, "n": 9, "section": "encore", "spotify": "https://open.spotify.com/track/1pgl5ntthebzHaqJVI1n6B", "reason": "with Trueno, a local"}], "guests": [{"song": "Damascus", "guest": "Yasiin Bey", "n": 28}, {"song": "The God of Lying", "guest": "Joe Talbot", "n": 14}, {"song": "Garage Palace", "guest": "Little Simz", "n": 14}, {"song": "Rock the House", "guest": "Del the Funky Homosapien", "n": 12}, {"song": "Charger", "guest": "Pauline Black", "n": 5}, {"song": "Désolé", "guest": "Fatoumata Diawara", "n": 4}, {"song": "With Love to an Ex", "guest": "Moonchild Sanelly", "n": 4}, {"song": "Saturnz Barz", "guest": "Popcaan", "n": 4}, {"song": "Empire Ants", "guest": "Yukimi", "n": 4}, {"song": "To Binge", "guest": "Yukimi", "n": 2}, {"song": "Broken", "guest": "Hypnotic Brass Ensemble", "n": 2}, {"song": "White Flag", "guest": "Bashy", "n": 1}, {"song": "DARE", "guest": "Shaun Ryder", "n": 1}, {"song": "The Lost Chord", "guest": "Leee John", "n": 1}, {"song": "The Pink Phantom", "guest": "6LACK", "n": 1}, {"song": "Let Me Out", "guest": "Pusha T", "n": 1}, {"song": "Welcome to the World of the Plastic Beach", "guest": "Hypnotic Brass Ensemble", "n": 1}, {"song": "Submission", "guest": "Danny Brown", "n": 1}, {"song": "911", "guest": "D12", "n": 1}, {"song": "Hollywood", "guest": "Jamie Principle", "n": 1}], "shows": 47, "festivals": 19, "set_len": 19, "first": "2026-03-20", "last": "2026-10-08", "tiers": [{"title": "Sí o sí", "note": "Probabilidad de 90% o más: sonaron en prácticamente todos los shows recientes.", "songs": [{"song": "The Mountain", "album": null, "p": 0.984, "p_rep": 1.0, "n": 47, "section": "opening", "spotify": "https://open.spotify.com/track/3MebYJnEDK4XdnCj3VMLjL"}, {"song": "The Happy Dictator", "album": null, "p": 0.984, "p_rep": 1.0, "n": 47, "section": "opening", "spotify": "https://open.spotify.com/track/50BLjPGDh9DjVp4qwwyG6d"}, {"song": "Tranz", "album": null, "p": 0.984, "p_rep": 1.0, "n": 47, "section": "opening", "spotify": "https://open.spotify.com/track/7jYUaoOfdcYgUvkK8NnFfx"}, {"song": "19-2000", "album": "Gorillaz", "p": 0.984, "p_rep": 1.0, "n": 47, "section": "middle", "spotify": "https://open.spotify.com/track/71koAFCnGnugRdGIDfS7f4"}, {"song": "On Melancholy Hill", "album": "Plastic Beach", "p": 0.984, "p_rep": 1.0, "n": 47, "section": "middle", "spotify": "https://open.spotify.com/track/0q6LuUqGLUiCPP1cbdwFs3"}, {"song": "Delirium", "album": null, "p": 0.984, "p_rep": 1.0, "n": 47, "section": "middle", "spotify": "https://open.spotify.com/track/4uIXvy8PbYLEhs0PZgaP8p"}, {"song": "Dirty Harry", "album": "Demon Days", "p": 0.984, "p_rep": 1.0, "n": 47, "section": "encore", "spotify": "https://open.spotify.com/track/2bfGNzdiRa1jXZRdfssSzR"}, {"song": "Orange County", "album": null, "p": 0.984, "p_rep": 1.0, "n": 47, "section": "middle", "spotify": "https://open.spotify.com/track/5l4Gq3UC0dHKSExIf5xD9N"}, {"song": "Feel Good Inc.", "album": "Demon Days", "p": 0.984, "p_rep": 1.0, "n": 47, "section": "encore", "spotify": "https://open.spotify.com/track/0d28khcov6AiegSCpG5TuT"}, {"song": "Clint Eastwood", "album": "Gorillaz", "p": 0.984, "p_rep": 1.0, "n": 47, "section": "encore", "spotify": "https://open.spotify.com/track/1RKUoGiLEbcXN4GY4spQDx"}, {"song": "Stylo", "album": "Plastic Beach", "p": 0.982, "p_rep": 0.982, "n": 46, "section": "middle", "spotify": "https://open.spotify.com/track/6LUfuyLgvgqrykiTE6sJHY"}, {"song": "Rhinestone Eyes", "album": "Plastic Beach", "p": 0.973, "p_rep": 0.989, "n": 41, "section": "middle", "spotify": "https://open.spotify.com/track/1foMv2HQwfQ2vntFf9HFeG"}, {"song": "Andromeda", "album": null, "p": 0.93, "p_rep": 0.991, "n": 46, "section": "middle", "spotify": "https://open.spotify.com/track/2C0KFbb4v9CNWR5c9jWcKC"}]}, {"title": "Altas chances", "note": "Entre 50% y 90%: más probable que suenen que no.", "songs": [{"song": "She's My Collar", "album": null, "p": 0.836, "p_rep": 0.836, "n": 20, "section": "middle", "spotify": "https://open.spotify.com/track/3lIxtCaROdRDuTnNBDm3n2"}, {"song": "Kids With Guns", "album": "Demon Days", "p": 0.818, "p_rep": 0.899, "n": 31, "section": "middle", "spotify": "https://open.spotify.com/track/0eEgMbSzOHmkOeVuNC3E0k"}, {"song": "El Mañana", "album": "Demon Days", "p": 0.667, "p_rep": 0.703, "n": 37, "section": "middle", "spotify": "https://open.spotify.com/track/0dcMqjeDpwqB2xhzMsld0p"}, {"song": "Last Living Souls", "album": "Demon Days", "p": 0.629, "p_rep": 0.899, "n": 27, "section": "middle", "spotify": "https://open.spotify.com/track/7JzmCjvB6bk48JghLyrg8N"}]}, {"title": "Posibles", "note": "Entre 15% y 50%: rotan; puede tocar cualquiera de estos.", "songs": [{"song": "Tomorrow Comes Today", "album": "Gorillaz", "p": 0.46, "p_rep": 0.82, "n": 27, "section": "middle", "spotify": "https://open.spotify.com/track/6BL4PpswVjH9BAajbIbpmZ"}, {"song": "Casablanca", "album": null, "p": 0.33, "p_rep": 0.496, "n": 13, "section": "middle", "spotify": "https://open.spotify.com/track/4PjP7VfSAPxyt2TprUpALA"}, {"song": "The Moon Cave", "album": null, "p": 0.263, "p_rep": 0.263, "n": 23, "section": "middle", "spotify": "https://open.spotify.com/track/6VflG4mpZSlpKnqNRL3NO9"}, {"song": "The Shadowy Light", "album": null, "p": 0.233, "p_rep": 0.243, "n": 34, "section": "closing", "spotify": "https://open.spotify.com/track/1WHBtgrgSKDJd9Y8vHNZqH"}, {"song": "Superfast Jellyfish", "album": "Plastic Beach", "p": 0.223, "p_rep": 0.379, "n": 8, "section": "middle", "spotify": "https://open.spotify.com/track/1UJNbgfTzG1gZZTWFJdMf1"}, {"song": "5/4", "album": "Gorillaz", "p": 0.178, "p_rep": 0.216, "n": 3, "section": "middle", "spotify": "https://open.spotify.com/track/5Q10MhatY5DkgBfbWUkRpN"}]}], "albums": [{"name": "Gorillaz", "year": 2001, "total": 17, "played": 13, "never": ["Man Research (Clapper)", "Punk", "Starshine", "M1 A1"]}, {"name": "Demon Days", "year": 2005, "total": 15, "played": 10, "never": ["Intro", "November Has Come", "All Alone", "White Light", "Fire Coming out of the Monkey's Head"]}, {"name": "Plastic Beach", "year": 2010, "total": 16, "played": 12, "never": ["Orchestral Intro", "Some Kind of Nature", "Sweepstakes", "Pirate Jet"]}, {"name": "The Fall", "year": 2010, "total": 15, "played": 0, "never": ["Phoner to Arizona", "Revolving Doors", "HillBilly Man", "Detroit", "Shy-town", "Little Pink Plastic Bags", "The Joplin Spider", "The Parish of Space Dust", "The Snake in Dallas", "Amarillo", "The Speak It Mountains", "Aspen Forest", "Bobby in Phoenix", "California and the Slipping of the Sun", "Seattle Yodel"]}], "rare": [{"song": "Re-Hash", "album": "Gorillaz", "n": 2, "last": "2026-08-22"}, {"song": "New Genious (Brother)", "album": "Gorillaz", "n": 3, "last": "2026-06-06"}, {"song": "Sound Check (Gravity)", "album": "Gorillaz", "n": 4, "last": "2026-10-08"}, {"song": "Double Bass", "album": "Gorillaz", "n": 1, "last": "2026-10-04"}, {"song": "Rock the House", "album": "Gorillaz", "n": 12, "last": "2026-10-08"}, {"song": "Latin Simone (¿Qué Pasa Contigo?)", "album": "Gorillaz", "n": 1, "last": "2026-09-27"}, {"song": "Slow Country", "album": "Gorillaz", "n": 9, "last": "2026-10-07"}, {"song": "O Green World", "album": "Demon Days", "n": 2, "last": "2026-10-06"}, {"song": "Every Planet We Reach Is Dead", "album": "Demon Days", "n": 3, "last": "2026-10-06"}, {"song": "DARE", "album": "Demon Days", "n": 1, "last": "2026-06-20"}, {"song": "Don't Get Lost in Heaven", "album": "Demon Days", "n": 3, "last": "2026-09-29"}, {"song": "Demon Days", "album": "Demon Days", "n": 3, "last": "2026-09-29"}, {"song": "Welcome to the World of the Plastic Beach", "album": "Plastic Beach", "n": 1, "last": "2026-09-29"}, {"song": "White Flag", "album": "Plastic Beach", "n": 1, "last": "2026-06-20"}, {"song": "Empire Ants", "album": "Plastic Beach", "n": 4, "last": "2026-08-15"}, {"song": "Glitter Freeze", "album": "Plastic Beach", "n": 1, "last": "2026-03-21"}, {"song": "Broken", "album": "Plastic Beach", "n": 2, "last": "2026-10-08"}, {"song": "Plastic Beach", "album": "Plastic Beach", "n": 3, "last": "2026-10-08"}, {"song": "To Binge", "album": "Plastic Beach", "n": 2, "last": "2026-08-15"}, {"song": "Cloud of Unknowing", "album": "Plastic Beach", "n": 17, "last": "2026-10-08"}], "playlist": "https://open.spotify.com/playlist/1IZqWbRl3vrWjZFqOdAwP4"}, {"artist": "The Strokes", "day": "Domingo 29/11", "cut": [{"song": "Tyrants of the Mellow Moon", "album": null, "p": 0.261, "p_rep": 0.752, "n": 5, "section": "middle", "spotify": "https://open.spotify.com/track/7ETbuxubRVY8WsOnAwhumP"}, {"song": "Call It Fate, Call It Karma", "album": null, "p": 0.097, "p_rep": 0.638, "n": 17, "section": "middle", "spotify": "https://open.spotify.com/track/3Y4rUyw7XBCK6hGHCOt6rp"}], "must": [], "guests": [], "shows": 30, "festivals": 8, "set_len": 18, "first": "2026-06-12", "last": "2026-10-07", "tiers": [{"title": "Sí o sí", "note": "Probabilidad de 90% o más: sonaron en prácticamente todos los shows recientes.", "songs": [{"song": "You Only Live Once", "album": "First Impressions of Earth", "p": 0.971, "p_rep": 0.994, "n": 29, "section": "middle", "spotify": "https://open.spotify.com/track/4fPBB44eDH71YohayI4eKV"}, {"song": "Hard to Explain", "album": "Is This It", "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/2LMloFiV7DHpBhITOaBSam"}, {"song": "The Adults Are Talking", "album": null, "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/5ruzrDWcT0vuJIOMW7gMnW"}, {"song": "Going Shopping", "album": null, "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/18bHbpAKgsf8dor8F6qXHF"}, {"song": "Someday", "album": "Is This It", "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/56NkIxSZZiMpFP5ZNSxtnT"}, {"song": "Juicebox", "album": "First Impressions of Earth", "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/3jjQHULAVn71k40mKwGMiV"}, {"song": "Take It or Leave It", "album": "Is This It", "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/0J2OnBNKwt0KICDyDFPUvl"}, {"song": "Reptilia", "album": "Room on Fire", "p": 0.966, "p_rep": 1.0, "n": 30, "section": "middle", "spotify": "https://open.spotify.com/track/57Xjny5yNzAcsxnusKmAfA"}]}, {"title": "Altas chances", "note": "Entre 50% y 90%: más probable que suenen que no.", "songs": [{"song": "Dine N’Dash", "album": null, "p": 0.78, "p_rep": 0.916, "n": 15, "section": "middle", "spotify": "https://open.spotify.com/track/22a006OJm48zH87SkPpSVx"}, {"song": "Last Nite", "album": "Is This It", "p": 0.76, "p_rep": 0.76, "n": 26, "section": "closing", "spotify": "https://open.spotify.com/track/7kzKAuUzOITUauHAhoMoxA"}, {"song": "Going to Babble On", "album": null, "p": 0.596, "p_rep": 0.9, "n": 12, "section": "middle", "spotify": "https://open.spotify.com/track/2nxsLJwW4eFDwl36fUQJWe"}, {"song": "Lonely in the Future", "album": null, "p": 0.575, "p_rep": 0.869, "n": 13, "section": "opening", "spotify": "https://open.spotify.com/track/5gBMUQu2FVV1OYu92hbJjv"}, {"song": "This Is Not", "album": null, "p": 0.551, "p_rep": 0.68, "n": 5, "section": "middle", "spotify": "https://open.spotify.com/track/02qdK5VnAz2LkREkpbxekf"}, {"song": "New York City Cops", "album": "Is This It", "p": 0.546, "p_rep": 0.716, "n": 5, "section": "middle", "spotify": "https://open.spotify.com/track/7xuu4ByQkm8qhnwJQk994r"}, {"song": "Under Control", "album": "Room on Fire", "p": 0.542, "p_rep": 0.669, "n": 3, "section": "middle", "spotify": "https://open.spotify.com/track/3kKb3U3a8jmUJQB9ypE1Jl"}]}, {"title": "Posibles", "note": "Entre 15% y 50%: rotan; puede tocar cualquiera de estos.", "songs": [{"song": "Ode to the Mets", "album": null, "p": 0.493, "p_rep": 0.93, "n": 24, "section": "encore", "spotify": "https://open.spotify.com/track/1BLOVHYYlH4JUHQGcpt75R"}, {"song": "Automatic Stop", "album": "Room on Fire", "p": 0.487, "p_rep": 0.71, "n": 17, "section": "middle", "spotify": "https://open.spotify.com/track/6DUKQUhWqUySYngLXLNwP2"}, {"song": "Heart in a Cage", "album": "First Impressions of Earth", "p": 0.483, "p_rep": 0.708, "n": 10, "section": "middle", "spotify": "https://open.spotify.com/track/3mYCd23hPxJW5okSvMoy3x"}, {"song": "Meet Me in the Bathroom", "album": "Room on Fire", "p": 0.471, "p_rep": 0.691, "n": 7, "section": "middle", "spotify": "https://open.spotify.com/track/08l9WKDuRyGeStQ9ojTlFh"}, {"song": "Selfless", "album": null, "p": 0.348, "p_rep": 0.348, "n": 17, "section": "encore", "spotify": "https://open.spotify.com/track/2t0wwvR15fc3K1ey8OiOaN"}, {"song": "Gratisfaction", "album": "Angles", "p": 0.323, "p_rep": 0.474, "n": 7, "section": "middle", "spotify": "https://open.spotify.com/track/69YCkfZS0aOjEUPwQ4zCZ9"}, {"song": "Threat of Joy", "album": null, "p": 0.281, "p_rep": 0.44, "n": 14, "section": "encore", "spotify": "https://open.spotify.com/track/37ZgsOy8t4vMnGtMExr6ah"}, {"song": "What Ever Happened?", "album": "Room on Fire", "p": 0.271, "p_rep": 0.292, "n": 20, "section": "encore", "spotify": "https://open.spotify.com/track/78Gzxi27GuNHTfkn2BylG4"}, {"song": "Bad Decisions", "album": null, "p": 0.267, "p_rep": 0.267, "n": 22, "section": "middle", "spotify": "https://open.spotify.com/track/55N8cxpE1QDoeaaNqUnoZ2"}, {"song": "Tyrants of the Mellow Moon", "album": null, "p": 0.261, "p_rep": 0.752, "n": 5, "section": "middle", "spotify": "https://open.spotify.com/track/7ETbuxubRVY8WsOnAwhumP"}, {"song": "One Way Trigger", "album": null, "p": 0.259, "p_rep": 0.465, "n": 25, "section": "middle", "spotify": "https://open.spotify.com/track/5GKVcvTgnFYtfh25qKQtRg"}, {"song": "Evening Sun", "album": "First Impressions of Earth", "p": 0.224, "p_rep": 0.251, "n": 6, "section": "middle", "spotify": "https://open.spotify.com/track/7HxmrxySFNFu5ppnTDdNPv"}, {"song": "Ize of the World", "album": "First Impressions of Earth", "p": 0.191, "p_rep": 0.242, "n": 24, "section": "middle", "spotify": "https://open.spotify.com/track/1TbK5nWKIxZYIRVurMvkuR"}, {"song": "Soma", "album": "Is This It", "p": 0.173, "p_rep": 0.24, "n": 4, "section": "opening", "spotify": "https://open.spotify.com/track/7G8hUONVhvJnkD3Ak8mNF1"}, {"song": "12:51", "album": "Room on Fire", "p": 0.17, "p_rep": 0.17, "n": 11, "section": "encore", "spotify": "https://open.spotify.com/track/6Yu1OL8I0D4vjOzYdsXYGK"}]}], "albums": [{"name": "Is This It", "year": 2001, "total": 11, "played": 8, "never": ["Barely Legal", "Alone, Together", "Trying Your Luck"]}, {"name": "Room on Fire", "year": 2003, "total": 11, "played": 6, "never": ["You Talk Way Too Much", "Between Love & Hate", "The Way It Is", "The End Has No End", "I Can't Win"]}, {"name": "First Impressions of Earth", "year": 2006, "total": 14, "played": 6, "never": ["Razorblade", "On the Other Side", "Vision of Division", "Ask Me Anything", "Electricityscape", "Fear of Sleep", "15 Minutes", "Red Light"]}, {"name": "Angles", "year": 2011, "total": 10, "played": 2, "never": ["Machu Picchu", "Under Cover of Darkness", "Two Kinds of Happiness", "You're So Right", "Taken for a Fool", "Games", "Call Me Back", "Metabolism"]}], "rare": [{"song": "Is This It", "album": "Is This It", "n": 6, "last": "2026-09-18"}, {"song": "The Modern Age", "album": "Is This It", "n": 4, "last": "2026-07-14"}, {"song": "Killing Lies", "album": "First Impressions of Earth", "n": 10, "last": "2026-08-15"}, {"song": "Life Is Simple in the Moonlight", "album": "Angles", "n": 21, "last": "2026-08-28"}], "playlist": "https://open.spotify.com/playlist/0G2lE83qb30uNAfjGXIZ3Y"}], "min_p": 0.15, "generated": "2026-10-11"};
+const pct = p => Math.round(p * 100) + "%";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const sectionName = { opening: "apertura", middle: "mitad del show", closing: "cierre", encore: "bis" };
+
+function songLink(s, inner) {
+  return s.spotify ? `<a href="${esc(s.spotify)}" rel="noopener">${inner}</a>` : `<span class="t">${inner}</span>`;
+}
+
+function tierSure(t) {
+  return `<div class="tier"><h3>${esc(t.title)} <span class="count">${t.songs.length} temas</span></h3>
+    <p class="note">${esc(t.note)}</p>
+    <ul class="sure">${t.songs.map(s => `<li>${songLink(s, `<span class="mark">${esc(s.song)}</span>`)}</li>`).join("")}</ul></div>`;
+}
+
+function tierRows(t, shows) {
+  return `<div class="tier"><h3>${esc(t.title)} <span class="count">${t.songs.length} temas</span></h3>
+    <p class="note">${esc(t.note)}</p>
+    <div class="rows">${t.songs.map(s => `<div class="row">
+      <div class="name">${songLink(s, esc(s.song))}
+        <span class="sub">${s.album ? esc(s.album) + " · " : ""}${sectionName[s.section] || s.section} · sonó en ${s.n} de ${shows}</span></div>
+      <div class="pct">${pct(s.p)}</div>
+      <div class="bar" role="img" aria-label="${pct(s.p)}"><i style="width:${pct(s.p)}"></i></div>
+    </div>`).join("")}</div></div>`;
+}
+
+function band(b) {
+  const [sure, ...rest] = b.tiers;
+  return `<section class="band" id="${slug(b.artist)}">
+    <div class="band-head">
+      <div class="eyebrow">${esc(b.day)}</div>
+      <h2>${esc(b.artist)}</h2>
+      <div class="meta"><span>Set de festival típico: <b>${b.set_len} temas</b></span>
+        <span>Gira: <b>${b.shows} shows</b> (${b.festivals} festivales), ${b.first} a ${b.last}</span></div>
+      ${b.playlist ? `<a class="playlist" href="${esc(b.playlist)}" rel="noopener">Escuchar la playlist en Spotify →</a>` : ""}
+    </div>
+    ${tierSure(sure)}
+    ${rest.map(t => tierRows(t, b.shows)).join("")}
+    ${b.cut.length ? `<div class="tier"><h3>Suenan en sus shows, pero en festival se suelen caer <span class="count">${b.cut.length} temas</span></h3>
+      <p class="note">Están en el repertorio actual, pero los recortaron en los festivales recientes. Si el set de Buenos Aires es largo, entran. Están en la playlist igual.</p>
+      <div class="rows">${b.cut.map(s => `<div class="row">
+        <div class="name">${songLink(s, esc(s.song))}
+          <span class="sub">en el ${pct(s.p_rep)} de los shows propios recientes</span></div>
+        <div class="pct">${pct(s.p)}</div>
+        <div class="bar" role="img" aria-label="${pct(s.p)}"><i style="width:${pct(s.p)}"></i></div>
+      </div>`).join("")}</div></div>` : ""}
+    ${b.must.length || b.guests.length ? `<div class="tier"><h3>Invitados</h3>
+      ${b.must.map(s => `<p class="note">${songLink(s, `<b>${esc(s.song)}</b>`)} entra a la playlist igual: ${pct(s.p)} por la gira, pero el invitado es de acá.</p>`).join("")}
+      ${b.guests.length ? `<p class="note">Pesan menos porque casi siempre sonaron con un invitado que no va a estar (telonero de esa tanda o artista del mismo festival):</p>
+      <ul class="rare">${b.guests.map(g => `<li><b>${esc(g.song)}</b> <span>· con ${esc(g.guest)} · ${g.n} de ${b.shows} shows</span></li>`).join("")}</ul>` : ""}
+    </div>` : ""}
+    <div class="tier"><h3>Primeros 4 discos: lo que no se toca</h3>
+      <p class="note">Temas que no sonaron en ningún show de la gira. Muy improbables.</p>
+      <div class="albums">${b.albums.map(a => `<div class="album">
+        <h4>${esc(a.name)}<span>${a.year}</span></h4>
+        <div class="ratio">Se tocaron ${a.played} de ${a.total}</div>
+        ${a.never.length ? `<ul>${a.never.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : `<div class="none">Sonaron todos.</div>`}
+      </div>`).join("")}</div>
+    </div>
+    <div class="tier"><h3>Sorpresas posibles</h3>
+      <p class="note">De esos discos, sonaron alguna vez en la gira pero hoy están por debajo del ${pct(DATA.min_p)}.</p>
+      ${b.rare.length ? `<ul class="rare">${b.rare.map(r => `<li><b>${esc(r.song)}</b> <span>· ${esc(r.album)} · ${r.n} de ${b.shows} shows, la última el ${r.last}</span></li>`).join("")}</ul>` : `<p class="note">Ninguna.</p>`}
+    </div>
+  </section>`;
+}
+
+document.getElementById("days").innerHTML = DATA.bands.map(b => `<a href="#${slug(b.artist)}">${esc(b.day)} · ${esc(b.artist)}</a>`).join("");
+document.getElementById("bands").innerHTML = DATA.bands.map(band).join("");
+document.getElementById("gen").textContent = `Datos al ${DATA.generated}. Generado por report.py.`;
+</script>

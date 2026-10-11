@@ -1,0 +1,169 @@
+<title>Setlists Primavera BA 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of "setlist sheets", one per day; highlighter for the sure ones, strikethrough for what won't play.
+   The report's text is in Spanish on purpose: it was made for a festival-goer in Buenos Aires. */
+:root {
+  --paper: #f5f6f3; --sheet: #ffffff; --ink: #17181c; --muted: #5d606b; --line: #dcddd8;
+  --hl: #ffe35a; --hl-ink: #17181c; --pen: #2c55d6; --strike: #c8342b;
+  --display: "Permanent Marker", "Comic Sans MS", cursive;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #111216; --sheet: #1a1b20; --ink: #ecebe6; --muted: #9b9ea9; --line: #2c2e35;
+  --hl: #e8cd3c; --hl-ink: #141414; --pen: #8ea8ff; --strike: #ff7a6e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #111216; --sheet: #1a1b20; --ink: #ecebe6; --muted: #9b9ea9; --line: #2c2e35;
+  --hl: #e8cd3c; --hl-ink: #141414; --pen: #8ea8ff; --strike: #ff7a6e; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--body); }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px; display: grid; gap: 28px }
+a { color: var(--pen); text-underline-offset: 2px }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--pen); outline-offset: 2px; border-radius: 3px }
+
+header.top { display: grid; gap: 10px }
+.eyebrow { font: 500 .75rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { margin: 0; font: 700 clamp(1.6rem, 4.5vw, 2.3rem)/1.15 var(--body); text-wrap: balance; letter-spacing: -.01em }
+.lede { margin: 0; color: var(--muted); max-width: 62ch }
+nav.days { display: flex; flex-wrap: wrap; gap: 8px }
+nav.days a { text-decoration: none; color: var(--ink); border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 14px; font-weight: 600; font-size: .9rem }
+nav.days a:hover { background: var(--ink); color: var(--paper) }
+
+section.band { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: clamp(18px, 4vw, 32px); display: grid; gap: 26px; scroll-margin-top: 16px; position: relative }
+section.band::before { /* cinta de gaffer */
+  content: ""; position: absolute; top: -10px; left: 50%; width: 110px; height: 22px; transform: translateX(-50%) rotate(-2deg);
+  background: var(--line); opacity: .9; border-radius: 2px }
+.band-head { display: grid; gap: 6px }
+.band-head h2 { margin: 0; font: 400 clamp(2rem, 7vw, 3rem)/1.05 var(--display); letter-spacing: .01em }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: .9rem }
+.meta b { color: var(--ink); font-weight: 600 }
+.playlist { justify-self: start; display: inline-flex; gap: 8px; align-items: center; margin-top: 6px; font-weight: 600; font-size: .92rem; text-decoration: none; border-bottom: 2px solid var(--pen); padding-bottom: 1px }
+
+.tier { display: grid; gap: 10px }
+.tier h3 { margin: 0; display: flex; align-items: baseline; gap: 10px; font: 700 1.15rem/1.2 var(--body) }
+.tier h3 .count { font: 500 .8rem var(--mono); color: var(--muted) }
+.tier p.note { margin: 0; color: var(--muted); font-size: .9rem }
+
+ul.sure { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 10px }
+ul.sure li { font-weight: 600; font-size: 1.05rem }
+ul.sure li .mark { background: linear-gradient(transparent 12%, var(--hl) 12%, var(--hl) 88%, transparent 88%); color: var(--hl-ink); padding: 0 .3em; box-decoration-break: clone; -webkit-box-decoration-break: clone }
+ul.sure a { color: inherit; text-decoration: none }
+ul.sure a:hover .mark { text-decoration: underline }
+
+.rows { display: grid; gap: 2px }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 3.2rem minmax(60px, 140px); gap: 12px; align-items: center; padding: 7px 0; border-bottom: 1px dashed var(--line) }
+.row .name { min-width: 0; display: grid }
+.row .name a, .row .name span.t { font-weight: 600; color: var(--ink); text-decoration: none; overflow-wrap: anywhere }
+.row .name a:hover { text-decoration: underline }
+.row .sub { font-size: .78rem; color: var(--muted) }
+.row .pct { font: 500 .9rem var(--mono); text-align: right; font-variant-numeric: tabular-nums }
+.bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--pen); border-radius: 4px }
+
+.albums { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 18px }
+.album { display: grid; gap: 6px; align-content: start }
+.album h4 { margin: 0; font: 700 1rem/1.25 var(--body) }
+.album h4 span { font: 400 .8rem var(--mono); color: var(--muted); margin-left: 6px }
+.album .ratio { font-size: .85rem; color: var(--muted) }
+.album ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px }
+.album li { text-decoration: line-through; text-decoration-color: var(--strike); text-decoration-thickness: 2px; color: var(--muted) }
+.album .none { color: var(--muted); font-style: italic }
+
+.rare { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px }
+.rare li { font-size: .92rem }
+.rare li b { font-weight: 600 }
+.rare li span { color: var(--muted) }
+
+footer { color: var(--muted); font-size: .82rem; display: grid; gap: 4px }
+@media (prefers-reduced-motion: no-preference) { nav.days a { transition: background .15s, color .15s } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Primavera Sound Buenos Aires · Club Ciudad, Núñez</div>
+    <h1>Qué vas a escuchar: Gorillaz y The Strokes</h1>
+    <p class="lede">Setlist probable de cada banda, armado con todos los shows de su gira actual en setlist.fm. Manda la última tanda de cada banda (Gorillaz desde el 23/9 en Norteamérica, The Strokes desde Queens el 2/10), y cada tema se ajusta por cuánto sobrevive al recorte de un set de festival, que dura cerca de 1,5 h.</p>
+    <nav class="days" id="days" aria-label="Días"></nav>
+  </header>
+  <main id="bands" style="display:grid;gap:36px"></main>
+  <footer>
+    <div id="gen"></div>
+    <div>Fuente: <a href="https://www.setlist.fm" rel="noopener">setlist.fm</a>. Tracklists de los discos: Spotify.</div>
+  </footer>
+</div>
+
+<script>
+const DATA = /*DATA*/null;
+const pct = p => Math.round(p * 100) + "%";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const sectionName = { opening: "apertura", middle: "mitad del show", closing: "cierre", encore: "bis" };
+
+function songLink(s, inner) {
+  return s.spotify ? `<a href="${esc(s.spotify)}" rel="noopener">${inner}</a>` : `<span class="t">${inner}</span>`;
+}
+
+function tierSure(t) {
+  return `<div class="tier"><h3>${esc(t.title)} <span class="count">${t.songs.length} temas</span></h3>
+    <p class="note">${esc(t.note)}</p>
+    <ul class="sure">${t.songs.map(s => `<li>${songLink(s, `<span class="mark">${esc(s.song)}</span>`)}</li>`).join("")}</ul></div>`;
+}
+
+function tierRows(t, shows) {
+  return `<div class="tier"><h3>${esc(t.title)} <span class="count">${t.songs.length} temas</span></h3>
+    <p class="note">${esc(t.note)}</p>
+    <div class="rows">${t.songs.map(s => `<div class="row">
+      <div class="name">${songLink(s, esc(s.song))}
+        <span class="sub">${s.album ? esc(s.album) + " · " : ""}${sectionName[s.section] || s.section} · sonó en ${s.n} de ${shows}</span></div>
+      <div class="pct">${pct(s.p)}</div>
+      <div class="bar" role="img" aria-label="${pct(s.p)}"><i style="width:${pct(s.p)}"></i></div>
+    </div>`).join("")}</div></div>`;
+}
+
+function band(b) {
+  const [sure, ...rest] = b.tiers;
+  return `<section class="band" id="${slug(b.artist)}">
+    <div class="band-head">
+      <div class="eyebrow">${esc(b.day)}</div>
+      <h2>${esc(b.artist)}</h2>
+      <div class="meta"><span>Set de festival típico: <b>${b.set_len} temas</b></span>
+        <span>Gira: <b>${b.shows} shows</b> (${b.festivals} festivales), ${b.first} a ${b.last}</span></div>
+      ${b.playlist ? `<a class="playlist" href="${esc(b.playlist)}" rel="noopener">Escuchar la playlist en Spotify →</a>` : ""}
+    </div>
+    ${tierSure(sure)}
+    ${rest.map(t => tierRows(t, b.shows)).join("")}
+    ${b.cut.length ? `<div class="tier"><h3>Suenan en sus shows, pero en festival se suelen caer <span class="count">${b.cut.length} temas</span></h3>
+      <p class="note">Están en el repertorio actual, pero los recortaron en los festivales recientes. Si el set de Buenos Aires es largo, entran. Están en la playlist igual.</p>
+      <div class="rows">${b.cut.map(s => `<div class="row">
+        <div class="name">${songLink(s, esc(s.song))}
+          <span class="sub">en el ${pct(s.p_rep)} de los shows propios recientes</span></div>
+        <div class="pct">${pct(s.p)}</div>
+        <div class="bar" role="img" aria-label="${pct(s.p)}"><i style="width:${pct(s.p)}"></i></div>
+      </div>`).join("")}</div></div>` : ""}
+    ${b.must.length || b.guests.length ? `<div class="tier"><h3>Invitados</h3>
+      ${b.must.map(s => `<p class="note">${songLink(s, `<b>${esc(s.song)}</b>`)} entra a la playlist igual: ${pct(s.p)} por la gira, pero el invitado es de acá.</p>`).join("")}
+      ${b.guests.length ? `<p class="note">Pesan menos porque casi siempre sonaron con un invitado que no va a estar (telonero de esa tanda o artista del mismo festival):</p>
+      <ul class="rare">${b.guests.map(g => `<li><b>${esc(g.song)}</b> <span>· con ${esc(g.guest)} · ${g.n} de ${b.shows} shows</span></li>`).join("")}</ul>` : ""}
+    </div>` : ""}
+    <div class="tier"><h3>Primeros 4 discos: lo que no se toca</h3>
+      <p class="note">Temas que no sonaron en ningún show de la gira. Muy improbables.</p>
+      <div class="albums">${b.albums.map(a => `<div class="album">
+        <h4>${esc(a.name)}<span>${a.year}</span></h4>
+        <div class="ratio">Se tocaron ${a.played} de ${a.total}</div>
+        ${a.never.length ? `<ul>${a.never.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : `<div class="none">Sonaron todos.</div>`}
+      </div>`).join("")}</div>
+    </div>
+    <div class="tier"><h3>Sorpresas posibles</h3>
+      <p class="note">De esos discos, sonaron alguna vez en la gira pero hoy están por debajo del ${pct(DATA.min_p)}.</p>
+      ${b.rare.length ? `<ul class="rare">${b.rare.map(r => `<li><b>${esc(r.song)}</b> <span>· ${esc(r.album)} · ${r.n} de ${b.shows} shows, la última el ${r.last}</span></li>`).join("")}</ul>` : `<p class="note">Ninguna.</p>`}
+    </div>
+  </section>`;
+}
+
+document.getElementById("days").innerHTML = DATA.bands.map(b => `<a href="#${slug(b.artist)}">${esc(b.day)} · ${esc(b.artist)}</a>`).join("");
+document.getElementById("bands").innerHTML = DATA.bands.map(band).join("");
+document.getElementById("gen").textContent = `Datos al ${DATA.generated}. Generado por report.py.`;
+</script>

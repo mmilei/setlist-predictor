@@ -1,0 +1,12 @@
+# Secrets
+.env
+.spotify_token.json
+# setlist.fm data: downloaded by build_db.py, not redistributed
+raw/
+setlists.db
+# Private playlists in the author's Spotify account
+spotify_playlists.json
+logs/
+__pycache__/
+node_modules/
+story/out/
