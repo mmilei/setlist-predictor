@@ -1,6 +1,6 @@
 # Receipts: HyperFrames build
 
-**In short:** one prompt written in numbers, then 14 follow-ups. Claude caught 9 problems by rendering stills and contact sheets of its own frames and reviewing them. I caught 5 by watching the video, including the most important one: the first cut never showed the product, the playlists. It's the same split as the predictor itself: the agent does the volume, the human makes the calls.
+**In short:** one prompt written in numbers, then 14 follow-ups. Claude caught 9 problems by rendering stills and contact sheets of its own frames and reviewing them. I added 5 notes after watching it: the most important one (the first cut never showed the product, the playlists), a fix for glitches the stills had missed, a redo of the closing arrow, and two changes to the cut (a closing aside, twice the length). It's the same split as the predictor itself: the agent does the volume, the human makes the calls.
 
 Engine: HyperFrames 0.8.146 CLI, installed locally in `story/hyperframes/` (no Claude Code plugin). GSAP 3.15.0 and CustomEase vendored, fonts shipped as local woff2. Telemetry off: `HYPERFRAMES_NO_TELEMETRY=1` on every command, plus `hyperframes telemetry disable` (status: disabled, source: config). Snapshots run with `--describe false`, so no frame ever goes to the Gemini vision API.
 

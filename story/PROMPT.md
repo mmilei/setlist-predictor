@@ -39,4 +39,4 @@ QA: renderAt(t) is a pure function of t, no Date.now, timers or unseeded random;
 
 ## Brief corrections (before any build feedback)
 
-1. Data fix from the README owner: the Gorillaz playlist is 148 min (144 was before real Spotify durations), and Garage Palace drops from 31% to 8% after the guest discount, not to 0. Applied to SHOTS 4 and 5 above.
+1. Data fix, checked against the results: the Gorillaz playlist is 148 min (144 was before real Spotify durations), and Garage Palace drops from 31% to 8% after the guest discount, not to 0. Applied to SHOTS 4 and 5 above.
