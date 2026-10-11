@@ -1,5 +1,7 @@
 # Receipts: HyperFrames build
 
+**In short:** one prompt written in numbers, then 14 follow-ups. Claude caught 9 problems by rendering stills and contact sheets of its own frames and reviewing them. I caught 5 by watching the video, including the most important one: the first cut never showed the product, the playlists. It's the same split as the predictor itself: the agent does the volume, the human makes the calls.
+
 Engine: HyperFrames 0.8.146 CLI, installed locally in `story/hyperframes/` (no Claude Code plugin). GSAP 3.15.0 and CustomEase vendored, fonts shipped as local woff2. Telemetry off: `HYPERFRAMES_NO_TELEMETRY=1` on every command, plus `hyperframes telemetry disable` (status: disabled, source: config). Snapshots run with `--describe false`, so no frame ever goes to the Gemini vision API.
 
 ## The prompt
@@ -42,10 +44,21 @@ Round 6, two more notes from the human:
 
 Round 7, stills at 1, 16, 40 and 49.8 s: no notes. Motion runs at half speed with the same composition.
 
+Round 8, the human watched the 50 s cut and found bugs that the stills of rounds 1 to 7 had missed. On review, each one also shows on a 1 fps contact sheet decoded from the MP4. Lesson: review the decoded video at 1 to 3 fps, not hand-picked stills.
+
+13. "It has bugs: things grayed out that shouldn't be, and blue lines crossing the screen in the third part that later get covered." Four causes:
+   - The pipeline path drew across the full width before the nodes existed, so a blue line crossed empty paper and was then covered, and it showed through nodes that were still half transparent. It is now three short segments, one per gap between nodes, each drawn 6 frames after the node on its right lands.
+   - Scene 3 ended by fading every node except "model" to 0 over 6 frames: a gray frame, not a match cut. Removed. The cut itself carries the match from the model node's position.
+   - Every opacity fade was doubled by the slow motion, so text sat half transparent for up to 36 output frames. Opacity now always takes 4 output frames (`FADE`, never slowed), and position, scale and springs keep their slowed timing. Applied to all 18 fades.
+   - Rows 7 and 8 of each playlist were grayed by the bottom fade. The fade is gone: 8 full rows plus a mono line, "+ 29 more songs" / "+ 24 more songs", which appears after each sheet's last row.
+14. "The arrow part turned out horrible. It has to point, and move pointing down." The curved arrow is now a straight 4 px pen arrow pointing down beside "Listen": it draws, then nudges 10 px down and back 3 times (sine, 10 storyboard frames per leg), ending at rest.
+
+Round 9, a 2 fps contact sheet of the whole decoded MP4: the only gray left is the 4-frame fades caught mid-way.
+
 ## Technical fixes (not counted as creative)
 
 - The render flagged frames 418 to 420 as "blank-frame suspect" and re-captured them. They are correct: that is the match cut, with only the model node and then the small draft sheet on screen. Checked on a 6-frame strip decoded from the MP4.
-- `hyperframes lint`: 0 errors and 6 structure warnings (it suggests splitting scenes into sub-compositions). Left monolithic on purpose: a single 25 s file is easier to diff and to print in this receipt.
+- `hyperframes lint`: 0 errors and 6 structure warnings (it suggests splitting scenes into sub-compositions). Left monolithic on purpose: a single file is easier to diff and to point to from this receipt.
 
 ## Not used
 
@@ -55,13 +68,12 @@ The CLI also offers `feedback` (sends a report to HeyGen), `usage` (reads your C
 
 | | |
 |---|---|
-| Review rounds | 7 (four with notes, three clean) |
-| Creative follow-ups | 12 (9 from Claude reviewing its own frames, 3 from the human) |
+| Review rounds | 9 (five with notes, four clean) |
+| Creative follow-ups | 14 (9 from Claude reviewing its own frames, 5 from the human) |
 | Brief corrections (data) | 1 |
 | Frames | 1,500 (50 s at 30 fps; storyboard frame numbers above are at the original 25 s timing) |
-| Final MP4 | 1.61 MB, H.264 yuv420p, CRF 20, 1280x720 |
-| Final render time | 22 s on a Ryzen 9 5900X (final MP4 written 03:47:38) |
-| Wall time, install to first finished MP4 | 6 min 44 s (package.json created 03:30:18, MP4 written 03:37:02) |
-| Wall time, the human's note to the final MP4 | under 4 min 44 s (last clock read before the note 03:39:37, MP4 rewritten 03:44:21) |
+| Final MP4 | 1.54 MB, H.264 yuv420p, CRF 20, 1280x720 |
+| Render time | 19 to 22 s per render, Ryzen 9 5900X |
+| Install to first finished MP4 | 6 min 44 s (file timestamps) |
 
 Outputs: `docs/hyperframes/setlist-predictor.mp4` and `docs/hyperframes/scene-1.png` to `scene-5.png` (at 8, 17, 27, 39 and 49 s of the 50 s cut).

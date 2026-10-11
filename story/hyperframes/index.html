@@ -95,11 +95,11 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
 #plS { left: 668px; rotate: 1deg }
 .pl .head { font-size: 46px; margin-top: 8px }
 .pl .meta { margin: 10px 0 14px }
-.frow { display: flex; gap: 16px; font: 600 22px/1 var(--body); padding: 9px 0; border-bottom: 1px solid var(--line) }
+.frow { display: flex; gap: 16px; font: 600 22px/1 var(--body); padding: 8px 0; border-bottom: 1px solid var(--line) }
 .frow .n { width: 28px; font: 500 16px/22px var(--mono); color: var(--muted) }
 .frow .n + span { line-height: 22px }
 .frow .sec { margin-left: auto; font: 500 13px/22px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
-.pl .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: linear-gradient(rgba(255,255,255,0), #fff 80%) }
+.pl .more { margin-top: 12px; font: 500 14px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink) }
 #listen { left: 64px; top: 588px; font-size: 46px; color: var(--pen) }
 #ps { right: 64px; top: 616px; width: 380px; text-align: right; font: 500 14px/1.45 var(--mono); color: var(--muted) }
 </style>
@@ -162,7 +162,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
   <section id="s3" class="clip" data-start="18" data-duration="10" data-track-index="0">
     <div id="pipehead" class="abs marker">77 shows in. Two playlists out.</div>
     <svg class="ov" viewBox="0 0 1280 720">
-      <path id="pipe" class="stroke" pathLength="1" d="M189 330 L1060 330"/>
+      <path class="stroke pipeseg" pathLength="1" d="M314 330 L351 330"/><path class="stroke pipeseg" pathLength="1" d="M601 330 L638 330"/><path class="stroke pipeseg" pathLength="1" d="M888 330 L925 330"/>
     </svg>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div>
     <div class="dot"></div><div class="dot"></div><div class="dot"></div>
@@ -218,7 +218,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
         <div class="frow"><span class="n">07</span><span>Rhinestone Eyes</span><span class="sec">middle</span></div>
         <div class="frow"><span class="n">08</span><span>Every Planet We Reach Is Dead</span><span class="sec">middle</span></div>
       </div>
-      <div class="fade"></div>
+      <div class="more">+ 29 more songs</div>
     </div>
     <div id="plS" class="sheet pl">
       <div class="eyebrow">Playlist · Primavera Sound BA</div>
@@ -234,13 +234,13 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
         <div class="frow"><span class="n">07</span><span>Heart in a Cage</span><span class="sec">middle</span></div>
         <div class="frow"><span class="n">08</span><span>Soma</span><span class="sec">opening</span></div>
       </div>
-      <div class="fade"></div>
+      <div class="more">+ 24 more songs</div>
     </div>
     <div id="listen" class="abs marker">Two playlists. Listen</div>
     <div id="ps" class="abs">P.S. This video doubled as a test of HyperFrames, motion design in code.</div>
     <svg class="ov" viewBox="0 0 1280 720">
-      <path id="listenarrow" class="stroke" pathLength="1" d="M556 604 C 590 612, 600 640, 596 672"/>
-      <path id="listenhead" class="stroke" pathLength="1" d="M584 660 L596 674 L607 659"/>
+      <g id="listenarrowg"><path id="listenarrow" class="stroke" pathLength="1" style="stroke-width:4" d="M584 600 L584 664"/>
+      <path id="listenhead" class="stroke" pathLength="1" style="stroke-width:4" d="M570 650 L584 666 L598 650"/></g>
     </svg>
   </section>
 </div>
@@ -249,7 +249,8 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
 gsap.registerPlugin(CustomEase);
 const SLOW = 2;                              // every storyboard frame lasts 2 output frames
 const F = n => n * SLOW / 30;                // storyboard frame -> seconds
-const D = n => n * SLOW / 30;                // storyboard frame count -> duration
+const D = n => n * SLOW / 30;
+const FADE = 4 / 30;                         // opacity fades: 4 output frames, never slowed
 CustomEase.create("enter", "0.16,1,0.3,1");  // ease-out-expo
 CustomEase.create("move", "0.76,0,0.24,1");  // ease-in-out-quart
 CustomEase.create("exit", "0.7,0,0.84,0");   // ease-in-expo
@@ -284,58 +285,67 @@ document.fonts.ready.then(() => {
   const tl = gsap.timeline({ paused: true });
 
   // 1. The problem
-  tl.fromTo("#headline .w", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(4) }, F(6));
-  tl.fromTo(".card", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: D(6), ease: "enter", stagger: D(1) }, F(30));
-  tl.fromTo("#legend", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(90));
-  tl.fromTo("#counter .big", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: D(12), ease: "enter" }, F(100));
-  tl.fromTo("#counter .small", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(106));
+  tl.fromTo("#headline .w", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(4) }, F(6));
+  tl.fromTo(".card", { scale: 0.6 }, { scale: 1, duration: D(6), ease: "enter", stagger: D(1) }, F(30));
+  tl.fromTo(".card", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(1) }, F(30));
+  tl.fromTo("#legend", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(90));
+  tl.fromTo("#counter .big", { x: -24 }, { x: 0, duration: D(12), ease: "enter" }, F(100));
+  tl.fromTo("#counter .big", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(100));
+  tl.fromTo("#counter .small", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(106));
 
   // 2. The method
   tl.fromTo("#sessA", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(135));
   tl.fromTo("#sessB", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(139));
-  tl.fromTo("#sessA .code div", { opacity: 0, scaleX: 0.92 }, { opacity: 1, scaleX: 1, duration: D(6), ease: "enter", stagger: D(6) }, F(140));
+  tl.fromTo("#sessA .code div", { scaleX: 0.92 }, { scaleX: 1, duration: D(6), ease: "enter", stagger: D(6) }, F(140));
+  tl.fromTo("#sessA .code div", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(6) }, F(140));
   draw(tl, "#arrow", 195, 14);
   draw(tl, "#arrowhead", 207, 6, "enter");
-  tl.fromTo("#handoff", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(200));
+  tl.fromTo("#handoff", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(200));
   document.querySelectorAll("#sessB .tick").forEach((p, i) => draw(tl, p, 215 + i * 8, 8, "enter"));
 
   // 3. The pipeline
   tl.fromTo("#pipehead", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(270));
-  draw(tl, "#pipe", 276, 56, "move");
-  tl.fromTo("#s3 .node", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: D(14), ease: springEase(D(14)), stagger: D(14) }, F(276));
+  document.querySelectorAll("#s3 .pipeseg").forEach((p, i) => draw(tl, p, 276 + (i + 1) * 14 + 6, 8));
+  tl.fromTo("#s3 .node", { y: 18 }, { y: 0, duration: D(14), ease: springEase(D(14)), stagger: D(14) }, F(276));
+  tl.fromTo("#s3 .node", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(14) }, F(276));
   document.querySelectorAll("#s3 .dot").forEach((d, i) => {
     tl.fromTo(d, { x: 189 - 6, opacity: 0 }, { x: 1060 - 6, duration: D(40), ease: "none" }, F(340 + i * 8));
     tl.to(d, { opacity: 1, duration: D(2), ease: "none" }, F(340 + i * 8));
   });
-  tl.to("#s3 .node:not(#modelnode), #pipe, #s3 .dot, #pipehead", { opacity: 0, duration: D(6), ease: "exit" }, F(412));
 
   // 4. The human in the loop (match cut: the model node grows into the draft sheet)
   tl.fromTo("#draft", { x: 763 - 384, y: 330 - 309, scale: 0.39 },
     { x: 0, y: 0, scale: 1, duration: D(12), ease: "move" }, F(420));
-  tl.fromTo("#draft .row:not(#manifesto)", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(424));
-  tl.fromTo("#feats", { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: D(14), ease: springEase(D(14)) }, F(430));
-  tl.fromTo("#trueno", { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: D(18), ease: "enter" }, F(465));
+  tl.fromTo("#draft .row:not(#manifesto)", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(2) }, F(424));
+  tl.fromTo("#feats", { scale: 1.1 }, { scale: 1, duration: D(14), ease: springEase(D(14)) }, F(430));
+  tl.fromTo("#feats", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(430));
+  tl.fromTo("#trueno", { x: 60 }, { x: 0, duration: D(18), ease: "enter" }, F(465));
+  tl.fromTo("#trueno", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(465));
   tl.fromTo("#fgi", { y: 0 }, { y: 56, duration: D(10), ease: "move" }, F(495));
   tl.fromTo("#gp", { y: 0 }, { y: 56, duration: D(10), ease: "move" }, F(495));
-  tl.fromTo("#manifesto", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(503));
+  tl.fromTo("#manifesto", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(503));
   tl.fromTo("#manifesto .hl", { scaleX: 0 }, { scaleX: 1, duration: D(10), ease: "move" }, F(508));
-  tl.fromTo("#discount", { opacity: 0 }, { opacity: 1, duration: D(10), ease: "enter" }, F(530));
+  tl.fromTo("#discount", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(530));
   draw(tl, "#gparrow", 532, 14);
   draw(tl, "#gparrowhead", 544, 6, "enter");
   tl.fromTo("#gpbar", { scaleX: 0.31 }, { scaleX: 0.08, duration: D(20), ease: "move" }, F(540));
   tl.fromTo("#gppct", { innerText: 31 }, { innerText: 8, snap: { innerText: 1 }, duration: D(20), ease: "move" }, F(540));
   tl.fromTo("#gpstrike", { scaleX: 0 }, { scaleX: 1, duration: D(8), ease: "move" }, F(564));
-  tl.fromTo("#outtag", { opacity: 0 }, { opacity: 1, duration: D(8), ease: "enter" }, F(572));
+  tl.fromTo("#outtag", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(572));
 
   // 5. The result: both playlists on screen at the cut
   tl.fromTo("#plG", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(600));
   tl.fromTo("#plS", { y: 16 }, { y: 0, duration: D(16), ease: springEase(D(16)) }, F(604));
-  tl.fromTo("#plG .frow", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(604));
-  tl.fromTo("#plS .frow", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter", stagger: D(2) }, F(616));
-  tl.fromTo("#listen", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: D(18), ease: "enter" }, F(650));
+  tl.fromTo("#plG .frow", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(2) }, F(604));
+  tl.fromTo("#plS .frow", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none", stagger: D(2) }, F(616));
+  tl.fromTo("#plG .more", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(622));
+  tl.fromTo("#plS .more", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(634));
+  tl.fromTo("#listen", { x: -16 }, { x: 0, duration: D(18), ease: "enter" }, F(650));
+  tl.fromTo("#listen", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(650));
   draw(tl, "#listenarrow", 660, 14);
   draw(tl, "#listenhead", 672, 6, "enter");
-  tl.fromTo("#ps", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter" }, F(705));
+  tl.to("#listenarrowg", { y: 10, duration: D(10), ease: "sine.inOut", repeat: 5, yoyo: true }, F(682));
+  tl.fromTo("#ps", { opacity: 0 }, { opacity: 1, duration: FADE, ease: "none" }, F(705));
 
   window.__timelines["main"] = tl;
 });

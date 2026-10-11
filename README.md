@@ -52,8 +52,8 @@ Each of these was a short note from me. Each one changed the data, not just the 
 
 The video at the top is code too, rendered frame by frame with the
 [HyperFrames](https://github.com/heygen-com/hyperframes) CLI. It came from one directed prompt, written in numbers
-instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 12 follow-ups: 9 from Claude reviewing its own
-frames, 3 from me (the first one: "It's missing the most important thing: the playlist"). All of them:
+instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 14 follow-ups: 9 from Claude reviewing its own
+frames, 5 from me (the first one: "It's missing the most important thing: the playlist"). All of them:
 [`story/hyperframes/RECEIPTS.md`](story/hyperframes/RECEIPTS.md).
 
 ### 4. What the agent did, and what I did
