@@ -56,7 +56,23 @@ instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 14 follow-ups:
 frames, 5 from me (the first one: "It's missing the most important thing: the playlist"). All of them:
 [`story/hyperframes/RECEIPTS.md`](story/hyperframes/RECEIPTS.md).
 
-### 4. What the agent did, and what I did
+### 4. A baseline: the same question, answered from memory
+
+I asked Gemini for the same two setlists in one prompt, with no data, and checked its answer against the database
+(2026-10-11):
+
+| | Gorillaz | The Strokes |
+|---|---|---|
+| Songs that match this model's probable setlist | 12 of 19 | 10 of 15 |
+| Songs it predicts that this tour barely plays | *Cracker Island* and *Silent Running* (0 of 47 shows), *DARE* (1), *O Green World* (2), *New Gold* (2), *Plastic Beach* (3), *Saturnz Barz* (4) | *The Modern Age* (4 of 30, none in the last 10) |
+| Near-certain songs it misses | *The Happy Dictator*, *Orange County*, *Delirium*, *Stylo* (98% each), *She's My Collar*, *Last Living Souls* | *Going Shopping* (97%), *Dine N'Dash*, *Lonely in the Future*, *Going to Babble On* |
+
+It describes the previous tours (*Cracker Island*, *The New Abnormal*) as the current ones, so it doesn't know the new
+songs, which are most of what these bands play now. It gets the hits any fan would guess and misses the 5 or 6 slots
+that rotate, which are the ones worth predicting. It did catch one thing: *What Ever Happened?* plays in 20 of 30
+Strokes shows (7 of the last 10) and falls just outside this model's top 18.
+
+### 5. What the agent did, and what I did
 
 The code was written by Claude (Claude Code, Opus 5.5). I set the goal, made the calls in the table above, and
 checked the results against what I know about these bands.
