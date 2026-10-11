@@ -3,7 +3,7 @@
 What will Gorillaz and The Strokes play at Primavera Sound Buenos Aires 2026? This repo answers that from every show
 of their current tours, and turns the answer into two Spotify playlists in show order.
 
-[![The story in 25 seconds: click to play](docs/hyperframes/scene-1.png)](docs/hyperframes/setlist-predictor.mp4)
+[![The story in 50 seconds: click to play](docs/hyperframes/scene-1.png)](docs/hyperframes/setlist-predictor.mp4)
 
 **Listen:** [Gorillaz](https://open.spotify.com/playlist/1IZqWbRl3vrWjZFqOdAwP4) ·
 [The Strokes](https://open.spotify.com/playlist/0G2lE83qb30uNAfjGXIZ3Y)
@@ -53,8 +53,9 @@ Each of these was a short note from me. Each one changed the data, not just the 
 
 The video at the top is code too: an HTML composition rendered frame by frame with the
 [HyperFrames](https://github.com/heygen-com/hyperframes) CLI. It came from one directed prompt, written in numbers
-instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 10 creative follow-ups: 9 from Claude reviewing its
-own frames, and 1 from me ("It's missing the most important thing: the playlist"). A plain HTML + Playwright build of
+instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 12 creative follow-ups: 9 from Claude reviewing its
+own frames, and 3 from me (the first one: "It's missing the most important thing: the playlist"). A plain HTML +
+Playwright build of
 the same prompt was made in parallel and dropped for its weaker motion. Every follow-up, as acted on:
 [`story/hyperframes/RECEIPTS.md`](story/hyperframes/RECEIPTS.md).
 

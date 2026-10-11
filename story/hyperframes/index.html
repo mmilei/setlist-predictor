@@ -101,13 +101,14 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
 .frow .sec { margin-left: auto; font: 500 13px/22px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
 .pl .fade { position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: linear-gradient(rgba(255,255,255,0), #fff 80%) }
 #listen { left: 64px; top: 588px; font-size: 46px; color: var(--pen) }
+#ps { right: 64px; top: 616px; width: 380px; text-align: right; font: 500 14px/1.45 var(--mono); color: var(--muted) }
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="720" data-duration="25">
+<div id="root" data-composition-id="main" data-start="0" data-width="1280" data-height="720" data-duration="50">
 
   <!-- 1. The problem: 0 to 134 -->
-  <section id="s1" class="clip" data-start="0" data-duration="4.5" data-track-index="0">
+  <section id="s1" class="clip" data-start="0" data-duration="9" data-track-index="0">
     <div id="wall" class="abs"></div>
     <div id="ticket" class="sheet">
       <div class="eyebrow">Primavera Sound · Buenos Aires · 2026</div>
@@ -124,7 +125,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
   </section>
 
   <!-- 2. The method: 135 to 269 -->
-  <section id="s2" class="clip" data-start="4.5" data-duration="4.5" data-track-index="0">
+  <section id="s2" class="clip" data-start="9" data-duration="9" data-track-index="0">
     <div id="sessA" class="sheet sess">
       <div class="eyebrow">Session A · writes the spec</div>
       <div class="title marker">Plan</div>
@@ -158,7 +159,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
   </section>
 
   <!-- 3. The pipeline: 270 to 419 -->
-  <section id="s3" class="clip" data-start="9" data-duration="5" data-track-index="0">
+  <section id="s3" class="clip" data-start="18" data-duration="10" data-track-index="0">
     <div id="pipehead" class="abs marker">77 shows in. Two playlists out.</div>
     <svg class="ov" viewBox="0 0 1280 720">
       <path id="pipe" class="stroke" pathLength="1" d="M189 330 L1060 330"/>
@@ -172,7 +173,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
   </section>
 
   <!-- 4. The human in the loop: 420 to 599 -->
-  <section id="s4" class="clip" data-start="14" data-duration="6" data-track-index="0">
+  <section id="s4" class="clip" data-start="28" data-duration="12" data-track-index="0">
     <div id="draft" class="sheet">
       <div class="eyebrow">Gorillaz · setlist draft</div>
       <div class="head marker" style="margin-top:8px">Model output</div>
@@ -202,7 +203,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
   </section>
 
   <!-- 5. The result: 600 to 749 -->
-  <section id="s5" class="clip" data-start="20" data-duration="5" data-track-index="0">
+  <section id="s5" class="clip" data-start="40" data-duration="10" data-track-index="0">
     <div id="plG" class="sheet pl">
       <div class="eyebrow">Playlist · Primavera Sound BA</div>
       <div class="head marker">GORILLAZ</div>
@@ -236,6 +237,7 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
       <div class="fade"></div>
     </div>
     <div id="listen" class="abs marker">Two playlists. Listen</div>
+    <div id="ps" class="abs">P.S. This video doubled as a test of HyperFrames, motion design in code.</div>
     <svg class="ov" viewBox="0 0 1280 720">
       <path id="listenarrow" class="stroke" pathLength="1" d="M556 604 C 590 612, 600 640, 596 672"/>
       <path id="listenhead" class="stroke" pathLength="1" d="M584 660 L596 674 L607 659"/>
@@ -245,14 +247,15 @@ svg.ov { position: absolute; inset: 0; width: 1280px; height: 720px; overflow: v
 
 <script>
 gsap.registerPlugin(CustomEase);
-const F = n => n / 30;                       // frame -> seconds
-const D = n => n / 30;                       // frame count -> duration
+const SLOW = 2;                              // every storyboard frame lasts 2 output frames
+const F = n => n * SLOW / 30;                // storyboard frame -> seconds
+const D = n => n * SLOW / 30;                // storyboard frame count -> duration
 CustomEase.create("enter", "0.16,1,0.3,1");  // ease-out-expo
 CustomEase.create("move", "0.76,0,0.24,1");  // ease-in-out-quart
 CustomEase.create("exit", "0.7,0,0.84,0");   // ease-in-expo
 // Analytic spring, damping ratio 0.75 at 2.2 Hz, stretched over the tween's duration.
 const springEase = (dur, zeta = 0.75, f = 2.2) => p => {
-  const t = p * dur, w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - zeta * zeta);
+  const t = p * dur / SLOW, w = 2 * Math.PI * f, wd = w * Math.sqrt(1 - zeta * zeta);
   return p >= 1 ? 1 : 1 - Math.exp(-zeta * w * t) * (Math.cos(wd * t) + (zeta * w / wd) * Math.sin(wd * t));
 };
 const draw = (tl, el, at, frames, ease = "move") =>
@@ -332,6 +335,7 @@ document.fonts.ready.then(() => {
   tl.fromTo("#listen", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: D(18), ease: "enter" }, F(650));
   draw(tl, "#listenarrow", 660, 14);
   draw(tl, "#listenhead", 672, 6, "enter");
+  tl.fromTo("#ps", { opacity: 0 }, { opacity: 1, duration: D(6), ease: "enter" }, F(705));
 
   window.__timelines["main"] = tl;
 });

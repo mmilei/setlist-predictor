@@ -35,6 +35,13 @@ Round 4, the human's note after watching the first finished render (the plain HT
 
 Round 5, stills at 20, 20.5, 22 and 24.5 s: no notes.
 
+Round 6, two more notes from the human:
+
+11. "Add a closing aside at the end, with very little weight and only a few frames: something like 'and by the way, I tested a new motion design tool making this video'." Mono 14 px in muted, right-aligned in a 380 px box at the bottom right, fading in over 6 frames from frame 705 and held to the end: "P.S. This video doubled as a test of HyperFrames, motion design in code." The first still put it right against the Listen arrow, so it wraps to two lines and right-aligns.
+12. "Make the video twice as long: each frame should last what 2 frames last today." Done as true slow motion, not frame doubling: one `SLOW = 2` factor scales every storyboard frame and duration, and the spring is evaluated on the storyboard clock so its shape stretches too. Clip windows and the root duration were doubled to 50 s. Rendered at 30 fps: 1,500 distinct frames, none duplicated.
+
+Round 7, stills at 1, 16, 40 and 49.8 s: no notes. Motion runs at half speed with the same composition.
+
 ## Technical fixes (not counted as creative)
 
 - The render flagged frames 418 to 420 as "blank-frame suspect" and re-captured them. They are correct: that is the match cut, with only the model node and then the small draft sheet on screen. Checked on a 6-frame strip decoded from the MP4.
@@ -48,13 +55,13 @@ The CLI also offers `feedback` (sends a report to HeyGen), `usage` (reads your C
 
 | | |
 |---|---|
-| Review rounds | 5 (three with notes, two clean) |
-| Creative follow-ups | 10 (9 from Claude reviewing its own frames, 1 from the human) |
+| Review rounds | 7 (four with notes, three clean) |
+| Creative follow-ups | 12 (9 from Claude reviewing its own frames, 3 from the human) |
 | Brief corrections (data) | 1 |
-| Frames | 750 (25 s at 30 fps) |
-| Final MP4 | 0.89 MB, H.264 yuv420p, CRF 20, 1280x720 |
-| Final render time | 19 s on a Ryzen 9 5900X |
+| Frames | 1,500 (50 s at 30 fps; storyboard frame numbers above are at the original 25 s timing) |
+| Final MP4 | 1.61 MB, H.264 yuv420p, CRF 20, 1280x720 |
+| Final render time | 22 s on a Ryzen 9 5900X (final MP4 written 03:47:38) |
 | Wall time, install to first finished MP4 | 6 min 44 s (package.json created 03:30:18, MP4 written 03:37:02) |
 | Wall time, the human's note to the final MP4 | under 4 min 44 s (last clock read before the note 03:39:37, MP4 rewritten 03:44:21) |
 
-Outputs: `docs/hyperframes/setlist-predictor.mp4` and `docs/hyperframes/scene-1.png` to `scene-5.png` (frames 120, 255, 405, 585, 735).
+Outputs: `docs/hyperframes/setlist-predictor.mp4` and `docs/hyperframes/scene-1.png` to `scene-5.png` (at 8, 17, 27, 39 and 49 s of the 50 s cut).
