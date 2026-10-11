@@ -3,7 +3,7 @@
 What will Gorillaz and The Strokes play at Primavera Sound Buenos Aires 2026? This repo answers that from every show
 of their current tours, and turns the answer into two Spotify playlists in show order.
 
-[![The story in 50 seconds: click to play](docs/hyperframes/scene-1.png)](docs/hyperframes/setlist-predictor.mp4)
+[![The story in 50 seconds](docs/hyperframes/setlist-predictor.gif)](docs/hyperframes/setlist-predictor.mp4)
 
 **Listen:** [Gorillaz](https://open.spotify.com/playlist/1IZqWbRl3vrWjZFqOdAwP4) ·
 [The Strokes](https://open.spotify.com/playlist/0G2lE83qb30uNAfjGXIZ3Y)
