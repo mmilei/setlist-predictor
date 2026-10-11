@@ -31,9 +31,8 @@ steered.
 ### 1. One session wrote the brief, another one built it
 
 I described what I wanted to a Claude Code session. Instead of building it, that session wrote a brief
-([`SPEC.md`](SPEC.md), translated from Spanish, otherwise as handed over): the decisions already made, the
-deliverables, the data rules ("ALL the data, no summarizing or sampling"; a show that can't be downloaded "is recorded
-as missing, never made up"), and when to stop and ask me. A second session took the brief and built the pipeline from it.
+([`SPEC.md`](SPEC.md), translated from Spanish): the decisions already made, the deliverables, the data rules and
+when to stop and ask me. A second session took the brief and built the pipeline from it.
 
 Splitting it this way keeps the builder's context clean, and makes every decision explicit before any code exists.
 
@@ -47,23 +46,20 @@ Each of these was a short note from me. Each one changed the data, not just the 
 | "Only the last 4 to 10 shows really matter" | The model weights tour legs. Gorillaz's set locked in after 9/23, so those 10 shows weigh 4x. |
 | "Add filler from Demon Days and Plastic Beach, not the debut" | Songs from those albums that rotate in recent shows fill the playlist up to 150 minutes. |
 | "Does either band have a feature with someone playing the same day?" | Checked against both lineups: no. But the data showed something else: **Trueno**, who raps on Gorillaz's *The Manifesto*, joined them on stage in 8 of the 9 shows where it was played. He's from Buenos Aires. *The Manifesto* went into the playlist. |
-| "Now the reverse: downweight songs that were played because a guest was around" | Songs played almost only with an occasional guest now count 25%. *Garage Palace* (Little Simz, 14 of 14 plays) and *Rock the House* (Del the Funky Homosapien) dropped out of the playlist. Guests who tour with the band (Bootie Brown, Kara Jackson, Posdnuos) don't count as occasional. |
+| "Now the reverse: downweight songs that were played because a guest was around" | Songs played almost only with an occasional guest now count 25%. *Garage Palace* (Little Simz in 14 of 14 plays) and *Rock the House* dropped out of the playlist. |
 
 ### 3. The video, with its own receipts
 
-The video at the top is code too: an HTML composition rendered frame by frame with the
+The video at the top is code too, rendered frame by frame with the
 [HyperFrames](https://github.com/heygen-com/hyperframes) CLI. It came from one directed prompt, written in numbers
-instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 12 creative follow-ups: 9 from Claude reviewing its
-own frames, and 3 from me (the first one: "It's missing the most important thing: the playlist"). A plain HTML +
-Playwright build of
-the same prompt was made in parallel and dropped for its weaker motion. Every follow-up, as acted on:
+instead of adjectives ([`story/PROMPT.md`](story/PROMPT.md)), and 12 follow-ups: 9 from Claude reviewing its own
+frames, 3 from me (the first one: "It's missing the most important thing: the playlist"). All of them:
 [`story/hyperframes/RECEIPTS.md`](story/hyperframes/RECEIPTS.md).
 
 ### 4. What the agent did, and what I did
 
 The code was written by Claude (Claude Code, Opus 5.5). I set the goal, made the calls in the table above, and
-checked the results against what I know about these bands. Data sources were checked live: setlist.fm's API for the
-shows, the festival's lineup per day from the press.
+checked the results against what I know about these bands.
 
 ## How it works
 
